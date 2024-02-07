@@ -1,0 +1,9 @@
+pyvenv.cfg
+.python-version
+**__pycache__**
+.vscode
+.coverage
+
+app/venv
+app/.pytest_cache
+app/services/license_management/license_file
