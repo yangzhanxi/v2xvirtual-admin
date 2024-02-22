@@ -14,7 +14,10 @@ auth = Blueprint("auth", __name__)
 # Login endpoint
 @auth.post("/login")
 def login():
-    # Login handler
+    """
+    Login handler.
+    """
+
     try:
         username, password = (
             request.json.get(USER_NAME_KEY).strip(),
@@ -55,6 +58,11 @@ def login():
 @jwt_required()
 @login_required
 def logout():
-    a = logout_user()
-    print(a)
-    return jsonify(message="Logged out successfully"), 200
+    """
+    Logout handler.
+    """
+
+    next_url = ""  # noqa
+    logout_user()
+
+    return auth_response.LOGOUT_SUCCEED

@@ -8,7 +8,8 @@ class V2xVirtualAdminError(Exception):
         Init V2xVirtual Admin Error object.
 
         :param message: Error message, defaults to "".
-        :param error_details: Additional error details messagem, defaults to None.
+        :param error_details: Additional error details messagem,
+            defaults to None.
         """
         if error_details is None:
             error_details = message

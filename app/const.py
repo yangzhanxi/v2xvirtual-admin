@@ -19,3 +19,7 @@ SECURITY_PASSWORD_SALT = "329072734491176369717098496818781888587"
 # Parameters for the HTTP request.
 USER_NAME_KEY = "username"
 PASSWORD_KEY = "password"
+
+# Dev license file info
+DEV_LICENSE_FOLDER = "license_file"
+LICENSE_FILE_NAME = "license.lic"
