@@ -1,9 +1,12 @@
+from typing import Optional
+
+
 class V2xVirtualAdminError(Exception):
     """
     Base class for all V2X Virtual Admin Error exceptions.
     """
 
-    def __init__(self, message: str = "", error_details: str = None):
+    def __init__(self, message: str = "", error_details: Optional[str] = None):
         """
         Init V2xVirtual Admin Error object.
 

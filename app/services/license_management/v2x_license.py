@@ -1,7 +1,7 @@
 import os
 import re
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 import errors.license_errors as lic_errors
 from const import DEV_LICENSE_FOLDER, LICENSE_FILE_NAME
@@ -41,14 +41,14 @@ class V2xLicense(object):
         return self.__name
 
     @property
-    def start(self):
+    def start(self) -> str:
         return self.__start
 
     @property
-    def expiration(self):
+    def expiration(self) -> str:
         return self.__expiration
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return {
             "name": self.__name,
             "start": self.__start,
@@ -63,10 +63,10 @@ class LicenseFile:
 
     def __init__(self):
         self.file_path: str = os.path.join(LICENSE_PATH, LICENSE_FILE_NAME)
-        self.content: str = None
+        self.content: Optional[str] = None
         self.licenses: List[V2xLicense] = []
 
-    def read(self):
+    def read(self) -> None:
         """
         Read license file.
         """
@@ -81,17 +81,19 @@ class LicenseFile:
                 message="Failed to read V2X Virtual license file.",
                 error_details=str(err))
 
-    def write(self):
+    def write(self) -> None:
         """
         Placeholder function for upload file.
         """
+
         raise NotImplementedError
 
-    def parse(self):
+    def parse(self) -> None:
         """
         Parse the content of license.lic file, extract the name, start time,
         and expiration data.
         """
+
         if self.content is None:
             return
 
@@ -99,7 +101,10 @@ class LicenseFile:
             formatted_license = \
                 license.replace('\n', '').replace('\t', '').replace('\\', '')
 
-            name = NAME_REGEXP.match(formatted_license).group(0)
+            match_name = NAME_REGEXP.match(formatted_license)
+            if match_name:
+                name = match_name.group(0)
+
             start_and_expiration = TIME_REGEXP.findall(formatted_license)
             vendor = VENDOR_REGEXP.search(formatted_license)
 

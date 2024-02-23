@@ -1,4 +1,3 @@
-import pytest
 from mock import mock_open, patch
 
 from services.license_management.v2x_license import (LicenseFile, V2xLicense,
@@ -46,7 +45,7 @@ def test_LicenseFile_init(os_mock, path_mock, name_mock):
 @patch("builtins.open", new_callable=mock_open, read_data="ut_content")
 @patch(f"{TEST_MODULE}.os")
 def test_LicenseFile_read_pass(os_mock, mock_open):
-    # Test read license file successfully.
+    # Test read license file successfully
     lic_file = LicenseFile()
     lic_file.file_path = "ut_path"
 
@@ -56,21 +55,23 @@ def test_LicenseFile_read_pass(os_mock, mock_open):
 
 
 @patch("builtins.open",
-       side_effect=Exception)
+       side_effect=Exception("ut_error"))
 @patch(f"{TEST_MODULE}.os")
 def test_LicenseFile_read_fail(os_mock, mock_open):
-    # Test raises LicenseFileReadError.
+    # Test raises LicenseFileReadError
     lic_file = LicenseFile()
     lic_file.file_path = "ut_path"
 
-    with pytest.raises(lic_errors.LicenseFileReadError) as err:
+    try:
         lic_file.read()
-    assert str(err.value) == "Failed to read V2X Virtual license file."
+    except lic_errors.LicenseFileReadError as err:
+        assert str(err) == "Failed to read V2X Virtual license file."
+        assert err.error_info == "ut_error"
 
 
 @patch(f"{TEST_MODULE}.os")
 def test_LicenseFile_parse_when_content_is_none(os_mock):
-    # Test content is None.
+    # Test content is None
     lic_file = LicenseFile()
 
     lic_file.parse()
@@ -179,7 +180,12 @@ def test__convert_date_format_pass():
         "2024.05.25"
 
 
-def test_convert_date_format_fail():
-    with pytest.raises(lic_errors.DateFormatError) as err:
+@patch(f"{TEST_MODULE}.datetime")
+def test_convert_date_format_fail(date_mock):
+    # Mock
+    date_mock.side_effect = Exception("ut_error")
+    try:
         _convert_date_format("ut_input")
-    assert str(err.value) == "Invalid date format: ut_input."
+    except lic_errors.DateFormatError as err:
+        assert str(err) == "Invalid date format: ut_input."
+        assert err.error_info == "ut_error"

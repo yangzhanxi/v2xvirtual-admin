@@ -10,7 +10,7 @@ from database.datastore import create_admin_role_and_user, init_datastore
 from routes import generate_routes
 
 
-def create_app():
+def create_app() -> Flask:
     """
     Create a flask APP.
 
@@ -24,14 +24,13 @@ def create_app():
         "SECRET_KEY", secrets.token_urlsafe())
 
     app.config["SECURITY_PASSWORD_SALT"] = os.environ.get(
-        "SECURITY_PASSWORD_SALT", SECURITY_PASSWORD_SALT
-    )
+        "SECURITY_PASSWORD_SALT", SECURITY_PASSWORD_SALT)
 
     app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe()
 
     user_datastore = init_datastore()
 
-    app.security = Security(app, user_datastore)
+    setattr(app, "security", Security(app, user_datastore))
 
     create_admin_role_and_user(app)
 
