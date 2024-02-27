@@ -1,5 +1,5 @@
 from http import HTTPStatus
 
 LICENSE_NOT_FOUND = \
-    ({"msg": "No licenses."},
+    ({"msg": "No license found."},
      HTTPStatus.UNPROCESSABLE_ENTITY)

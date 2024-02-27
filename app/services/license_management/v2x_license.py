@@ -23,16 +23,16 @@ VENDOR_REGEXP = re.compile(r'VENDOR_STRING="NAME=([\w ]+)[;]{1}')
 
 class V2xLicense(object):
     """
-    This class is used for storing the V2X Virtual license information.
+    This class is used to store the V2X Virtual license information.
     """
 
     def __init__(self, name: str, start: str, expiration: str):
         """
-        This function sets the name, start and expiration properties.
+        This function sets the name, start, and expiration properties.
 
         :param name: Name of the license.
         :param start: Start time of the license.
-        :param expiration: Expriation data of the license.
+        :param expiration: Expiration date of the license.
         """
 
         self.__name = name
@@ -71,7 +71,7 @@ class LicenseFile:
 
     def read(self) -> None:
         """
-        Read license file.
+        Read the V2X Virtual license file.
         """
 
         try:
@@ -89,15 +89,15 @@ class LicenseFile:
 
     def write(self) -> None:
         """
-        Placeholder function for upload file.
+        Placeholder function for uploading V2X Virtual license file.
         """
 
         raise NotImplementedError
 
     def parse(self) -> None:
         """
-        Parse the content of license.lic file, extract the name, start time,
-        and expiration data.
+        Parse the content of the V2X Virtual license file,
+        extract the name, start time, and expiration date.
         """
 
         if self.content is None:
@@ -136,7 +136,7 @@ class LicenseFile:
 
 def _convert_date_format(input_string: str) -> str:
     """
-    Converts the date formt from '01-may-2023' to '2023.05.01'.
+    Converts the date format from '01-may-2023' to '2023.05.01'.
 
     :param input_string: Input date string.
     :return: Desired date string format.

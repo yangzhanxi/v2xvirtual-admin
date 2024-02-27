@@ -14,9 +14,9 @@ LOG = logging.getLogger()
 
 def init_datastore() -> MongoEngineUserDatastore:
     """
-    Connect to the database, create a MongoEngineUserDatastore instance.
+    Connect to the database and create a MongoEngineUserDatastore instance.
 
-    :retrun: A MongoEngineUserDatastore instance.
+    :return: A MongoEngineUserDatastore instance.
     :raises: Datastore init error.
     """
 

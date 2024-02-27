@@ -17,8 +17,9 @@ lic = Blueprint("license", __name__)
 @roles_accepted("admin")
 def get_licenses():
     """
-    Gets licenses handler.
+    T
     """
+
     # Init License File object.
     license_file = LicenseFile()
     try:

@@ -11,10 +11,11 @@ def create_log_config_dict(file_path: str,
     """
     Creates the logging configuration dictionary.
 
-    :param log_level: The level of the logger, defaults to INFO.
-    :param file_path: The name of log file.
+    :param log_level: The logger level, defaults to INFO.
+    :param file_path: The name of the log file.
     :return config_dict: Logging configuration dictionary.
     """
+
     debug_format = "%(asctime)s - [%(levelname)s] - " + \
         "file: %(pathname)s - line: %(lineno)s - %(message)s"
 
@@ -60,9 +61,9 @@ def create_log_config_dict(file_path: str,
 
 def config_log(is_debug: bool = False) -> None:
     """
-    The method is used to configure logging."
+    The method is used to configure logging.
 
-    :param is_debug: Flag used to identicate whether or not in debug mode.
+    :param is_debug: Flag used to indicate whether or not it is in debug mode.
     """
 
     log_level = logging.DEBUG if is_debug else logging.INFO

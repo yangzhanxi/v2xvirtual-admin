@@ -17,7 +17,8 @@ def create_app() -> Flask:
 
     :return: app: Returns the flask instance.
     """
-    # Configure logging
+
+    # Logging configuration
     config_log(helpers.get_debug_flag())
 
     app = Flask(__name__)

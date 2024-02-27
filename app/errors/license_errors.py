@@ -3,17 +3,17 @@ from errors.app_errors import V2xVirtualAdminError
 
 class LicenseFileReadError(V2xVirtualAdminError):
     """
-    A problem occurred during read V2X Virtual license file.
+    A problem occurred during the reading of the V2X Virtual license file.
     """
 
 
 class DateFormatError(V2xVirtualAdminError):
     """
-    A problem occurred when date string format is error.
+    A problem occurred when the date string format has an error.
     """
 
 
 class LicenseParseError(V2xVirtualAdminError):
     """
-    A problem occurred during parse the V2X Virtual license file content.
+    A problem occurred during parsing the V2X Virtual license file content
     """

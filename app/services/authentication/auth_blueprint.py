@@ -19,7 +19,8 @@ auth = Blueprint("auth", __name__)
 @auth.post("/login")
 def login():
     """
-    Login handler.
+    This method serves as the login handler,
+    responsible for managing user authentication and access control.
     """
 
     try:
@@ -65,7 +66,9 @@ def login():
 @login_required
 def logout():
     """
-    Logout handler.
+    This method serves as the logout handler,
+    responsible for handling user logout operations
+    and ensuring secure session termination.
     """
 
     next_url = ""  # noqa
