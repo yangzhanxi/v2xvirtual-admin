@@ -4,7 +4,7 @@ pyvenv.cfg
 .vscode
 .coverage
 
-
+app/log
 app/venv
 app/.pytest_cache
 app/.mypy_cache

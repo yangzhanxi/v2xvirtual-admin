@@ -1,12 +1,13 @@
 import os
 import secrets
 
-from flask import Flask
+from flask import Flask, helpers
 from flask_jwt_extended import JWTManager
 from flask_security import Security
 
 from const import SECURITY_PASSWORD_SALT
 from database.datastore import create_admin_role_and_user, init_datastore
+from logging_module import config_log
 from routes import generate_routes
 
 
@@ -16,6 +17,8 @@ def create_app() -> Flask:
 
     :return: app: Returns the flask instance.
     """
+    # Configure logging
+    config_log(helpers.get_debug_flag())
 
     app = Flask(__name__)
 

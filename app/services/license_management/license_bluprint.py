@@ -1,21 +1,31 @@
+import logging
+
 from flask import Blueprint
-# from flask_security import auth_required
+from flask_jwt_extended import jwt_required
+from flask_security import login_required, roles_accepted
 
 from services.license_management.v2x_license import LicenseFile
+
+LOG = logging.getLogger()
 
 lic = Blueprint("license", __name__)
 
 
 @lic.get("/licenses")
-# @auth_required()
+@jwt_required()
+@login_required
+@roles_accepted("admin")
 def get_licenses():
-    """_summary_
-
-    Returns:
-        _type_: _description_
     """
+    Gets licenses handler.
+    """
+    # Init License File object.
     license_file = LicenseFile()
-    license_file.read()
-    license_file.parse()
+    try:
+        license_file.read()
+        license_file.parse()
 
-    return [lic.to_json() for lic in license_file.licenses]
+    except Exception as err:
+        LOG.info(f"No Licenses found. {err}")
+
+    return [lic.to_dict() for lic in license_file.licenses]

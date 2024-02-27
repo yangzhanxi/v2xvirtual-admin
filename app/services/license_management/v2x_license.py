@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 from datetime import datetime
@@ -5,6 +6,8 @@ from typing import List, Optional
 
 import errors.license_errors as lic_errors
 from const import DEV_LICENSE_FOLDER, LICENSE_FILE_NAME
+
+LOG = logging.getLogger()
 
 # FIXME: Use the license.lic path
 DEV_LICENSE_PATH = os.path.join(
@@ -72,13 +75,16 @@ class LicenseFile:
         """
 
         try:
-            with open(self.file_path, encoding='utf-8') as f:
+            with open(self.file_path, encoding="utf-8") as f:
                 self.content = f.read()
-                # FIXME: Add log
+
+                LOG.info(f"License file content: \n {self.content}")
+
         except Exception as err:
-            # FIXME: Add log
+            msg = "Failed to read V2X Virtual license file."
+            LOG.exception(f"{msg} {err}")
             raise lic_errors.LicenseFileReadError(
-                message="Failed to read V2X Virtual license file.",
+                message=msg,
                 error_details=str(err))
 
     def write(self) -> None:
@@ -120,8 +126,7 @@ class LicenseFile:
                         V2xLicense(license_name, start, expiration))
 
                 except Exception as err:
-                    # FIXME: Add log
-                    print(f"{err}")
+                    LOG.info(f"Failed to parse V2X Virtual License. {err}")
 
             else:
                 # Ignore any lines that do not contain
@@ -145,6 +150,8 @@ def _convert_date_format(input_string: str) -> str:
         return output_date_string
 
     except Exception as err:
+        msg = f"Invalid date format: {input_string}."
+        LOG.exception(f"{msg} {err}")
         raise lic_errors.DateFormatError(
-            message=f"Invalid date format: {input_string}.",
+            message=msg,
             error_details=str(err))
