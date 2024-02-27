@@ -42,3 +42,9 @@ class UserFindError(V2xVirtualAdminError):
     """
     A problem occurred during find specified user from datastore.
     """
+
+
+class LoggingConfigurationError(V2xVirtualAdminError):
+    """
+    A problem occurred during configuration logging.
+    """

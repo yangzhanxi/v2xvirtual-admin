@@ -11,5 +11,3 @@ python -m pytest \
     --cov=. \
     --junitxml=build/pytest.xml\
     "$@"
-
-diff-cover --compare-branch=origin/master build/coverage.xml || true

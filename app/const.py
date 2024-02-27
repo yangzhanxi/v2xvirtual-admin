@@ -23,3 +23,7 @@ PASSWORD_KEY = "password"
 # Dev license file info
 DEV_LICENSE_FOLDER = "license_file"
 LICENSE_FILE_NAME = "license.lic"
+
+# Log file dir
+LOG_FILE_DIR = "log"
+LOG_FILE_NAME = "v2xvirtual-admin.log"

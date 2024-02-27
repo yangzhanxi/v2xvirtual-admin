@@ -1,3 +1,4 @@
+import logging
 from http import HTTPStatus
 
 from flask import Blueprint, current_app, jsonify, request, session
@@ -7,6 +8,9 @@ from flask_security import (login_required, login_user, logout_user,
 
 import services.authentication.responses as auth_response
 from const import PASSWORD_KEY, USER_NAME_KEY
+
+LOG = logging.getLogger()
+
 
 auth = Blueprint("auth", __name__)
 
@@ -47,6 +51,8 @@ def login():
         login_user(user)
         access_token = create_access_token(identity=username)
 
+        LOG.info("User {username} logged in successfully.")
+
         return jsonify(msg="Login successfully.",
                        username=user.username,
                        access_toke=access_token)
@@ -64,5 +70,7 @@ def logout():
 
     next_url = ""  # noqa
     logout_user()
+
+    LOG.info("User {username} logged out successfully.")
 
     return auth_response.LOGOUT_SUCCEED

@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask
 from flask_security import MongoEngineUserDatastore, Security, hash_password
 from mongoengine import connect  # type: ignore
@@ -6,6 +8,8 @@ import const as app_const
 from database.models.auth import Role, User
 from errors.app_errors import (AdminRoleCreateError, AdminUserCreateError,
                                DatastoreInitError)
+
+LOG = logging.getLogger()
 
 
 def init_datastore() -> MongoEngineUserDatastore:
@@ -25,8 +29,10 @@ def init_datastore() -> MongoEngineUserDatastore:
                      port=app_const.DB_PORT)
         user_datastore = MongoEngineUserDatastore(db, User, Role)
     except Exception as err:
+        err_msg = "Failed to connect MongoDB."
+        LOG.exception(f"{err_msg}. err")
         raise DatastoreInitError(
-            message="Failed to connect MongoDB.", error_details=str(err))
+            message=err_msg, error_details=str(err))
 
     return user_datastore
 
@@ -43,7 +49,9 @@ def create_admin_role(user_datastore: MongoEngineUserDatastore) -> None:
         user_datastore.find_or_create_role(
             name=app_const.ADMIN_ROLE, permissions=app_const.ADMIN_PERMISSIONS)
     except Exception as err:
-        raise AdminRoleCreateError(message="Failed to create Admin role.",
+        msg = "Failed to create Admin role."
+        LOG.exception(f"{msg} {err}")
+        raise AdminRoleCreateError(message=msg,
                                    error_details=str(err))
 
 
@@ -62,7 +70,9 @@ def create_admin_user(user_datastore: MongoEngineUserDatastore) -> None:
                 password=hash_password(app_const.ADMIN_PASSWORD),
                 roles=[app_const.ADMIN_ROLE])
     except Exception as err:
-        raise AdminUserCreateError(message="Failed to create Admin user.",
+        msg = "Failed to create Admin user."
+        LOG.exception(f"{msg} {err}")
+        raise AdminUserCreateError(message=msg,
                                    error_details=str(err))
 
 
