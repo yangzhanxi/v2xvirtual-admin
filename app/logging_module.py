@@ -51,8 +51,7 @@ def create_log_config_dict(file_path: str,
             }
         },
         "root": {
-            "handlers": ["file_handler"],
-            # "propagate": False
+            "handlers": ["file_handler"]
         },
     }
 

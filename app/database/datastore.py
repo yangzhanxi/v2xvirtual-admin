@@ -30,7 +30,7 @@ def init_datastore() -> MongoEngineUserDatastore:
         user_datastore = MongoEngineUserDatastore(db, User, Role)
     except Exception as err:
         err_msg = "Failed to connect MongoDB."
-        LOG.exception(f"{err_msg}. err")
+        LOG.exception(f"{err_msg} {err}")
         raise DatastoreInitError(
             message=err_msg, error_details=str(err))
 

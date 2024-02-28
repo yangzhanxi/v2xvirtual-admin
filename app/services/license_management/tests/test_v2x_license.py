@@ -43,8 +43,9 @@ def test_LicenseFile_init(os_mock, path_mock, name_mock):
 
 
 @patch("builtins.open", new_callable=mock_open, read_data="ut_content")
+@patch(f"{TEST_MODULE}.LOG")
 @patch(f"{TEST_MODULE}.os")
-def test_LicenseFile_read_pass(os_mock, mock_open):
+def test_LicenseFile_read_pass(os_mock, log_mock, mock_open):
     # Test read license file successfully
     lic_file = LicenseFile()
     lic_file.file_path = "ut_path"
@@ -52,12 +53,15 @@ def test_LicenseFile_read_pass(os_mock, mock_open):
     lic_file.read()
     assert lic_file.content == "ut_content"
     mock_open.assert_called_once_with("ut_path", encoding="utf-8")
+    log_mock.info.assert_called_once_with(
+        "License file content: \n ut_content")
 
 
+@patch(f"{TEST_MODULE}.LOG")
 @patch("builtins.open",
        side_effect=Exception("ut_error"))
 @patch(f"{TEST_MODULE}.os")
-def test_LicenseFile_read_fail(os_mock, mock_open):
+def test_LicenseFile_read_fail(os_mock, mock_open, log_mock):
     # Test raises LicenseFileReadError
     lic_file = LicenseFile()
     lic_file.file_path = "ut_path"
@@ -67,6 +71,9 @@ def test_LicenseFile_read_fail(os_mock, mock_open):
     except lic_errors.LicenseFileReadError as err:
         assert str(err) == "Failed to read V2X Virtual license file."
         assert err.error_info == "ut_error"
+    log_mock.exception.assert_called_once_with(
+        "Failed to read V2X Virtual license file. ut_error",
+    )
 
 
 @patch(f"{TEST_MODULE}.os")
@@ -173,6 +180,32 @@ def test_LicenseFile_parse_pass(os_mock):
         "start": "2023.11.27",
         "expiration": "2024.05.25"}
     assert len(lic_file.licenses) == 3
+
+
+@patch(f"{TEST_MODULE}._convert_date_format")
+@patch(f"{TEST_MODULE}.LOG")
+@patch(f"{TEST_MODULE}.os")
+def test_LicenseFile_parse_log_info(os_mock,
+                                    log_mock,
+                                    convert_mock):
+    # Mock
+    convert_mock.side_effect = Exception("ut_error")
+    mock_content = \
+        "INCREMENT TT3_WSDL_PL spirentd 2024.05 " + \
+        "25-may-2024 2 BORROW=336 \\\n\t" + \
+        "SN=02i5c00000Dm1xOAAR:02i5c00000Dm1xOAAR:" + \
+        "FID_e8037cc0_91be_405c_9e20_47e686ff4a47 \\\n\t" + \
+        "START=27-nov-2023 SIGN='0097 A581 C966 9337 20D5 EE0D 3443 \\\n\t" + \
+        "9B00 7EF3 80F3 ECCC 121F 322D 76E3 0A80'\n"
+
+    # Test log info
+    lic_file = LicenseFile()
+    lic_file.content = mock_content
+
+    lic_file.parse()
+    assert lic_file.licenses == []
+    log_mock.info.assert_called_once_with(
+        "Failed to parse V2X Virtual License. ut_error")
 
 
 def test__convert_date_format_pass():
