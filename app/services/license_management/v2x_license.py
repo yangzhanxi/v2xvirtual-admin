@@ -5,9 +5,9 @@ from datetime import datetime
 from typing import List, Optional
 
 import errors.license_errors as lic_errors
-from const import DEV_LICENSE_FOLDER, LICENSE_FILE_NAME
+from const import APP_LOGGER, DEV_LICENSE_FOLDER, LICENSE_FILE_NAME
 
-LOG = logging.getLogger()
+LOG = logging.getLogger(APP_LOGGER)
 
 # FIXME: Use the license.lic path
 DEV_LICENSE_PATH = os.path.join(

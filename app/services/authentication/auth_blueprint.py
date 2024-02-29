@@ -7,10 +7,9 @@ from flask_security import (login_required, login_user, logout_user,
                             verify_password)
 
 import services.authentication.responses as auth_response
-from const import PASSWORD_KEY, USER_NAME_KEY
+from const import APP_LOGGER, PASSWORD_KEY, USER_NAME_KEY
 
-LOG = logging.getLogger()
-
+LOG = logging.getLogger(APP_LOGGER)
 
 auth = Blueprint("auth", __name__)
 
@@ -38,12 +37,12 @@ def login():
     try:
         user = current_app.security.datastore.find_user(username=username)
     except Exception as err:
-        msg = "Cannot find the user."
+        msg = "Cannot find the user 1."
         if "Connection refused" in str(err):
             msg = msg + ' MongoDB connection refused.'
 
-        return ({"msg": msg},
-                HTTPStatus.INTERNAL_SERVER_ERROR)
+            return ({"msg": msg},
+                    HTTPStatus.INTERNAL_SERVER_ERROR)
 
     if user and verify_password(password, user.password):
         if '_user_id' in session and session['_user_id'] == user.get_id():
@@ -52,7 +51,7 @@ def login():
         login_user(user)
         access_token = create_access_token(identity=username)
 
-        LOG.info("User {username} logged in successfully.")
+        LOG.info(f"User {username} logged in successfully.")
 
         return jsonify(msg="Login successfully.",
                        username=user.username,
@@ -74,6 +73,6 @@ def logout():
     next_url = ""  # noqa
     logout_user()
 
-    LOG.info("User {username} logged out successfully.")
+    LOG.info("User logged out successfully.")
 
     return auth_response.LOGOUT_SUCCEED

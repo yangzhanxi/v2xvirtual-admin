@@ -4,10 +4,10 @@ from flask import Blueprint
 from flask_jwt_extended import jwt_required
 from flask_security import login_required, roles_accepted
 
-from const import ADMIN_ROLE
+from const import ADMIN_ROLE, APP_LOGGER
 from services.license_management.v2x_license import LicenseFile
 
-LOG = logging.getLogger()
+LOG = logging.getLogger(APP_LOGGER)
 
 lic = Blueprint("license", __name__)
 

@@ -2,7 +2,7 @@ import logging
 import os
 from logging.config import dictConfig
 
-from const import LOG_FILE_DIR, LOG_FILE_NAME
+from const import APP_LOGGER, LOG_FILE_DIR, LOG_FILE_NAME
 from errors.app_errors import LoggingConfigurationError
 
 
@@ -41,7 +41,7 @@ def create_log_config_dict(file_path: str,
             }
         },
         "loggers": {
-            "app_logger": {
+            APP_LOGGER: {
                 "handlers": ["file_handler"],
                 "level": log_level
             },

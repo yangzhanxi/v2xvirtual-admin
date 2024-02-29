@@ -9,7 +9,7 @@ from database.models.auth import Role, User
 from errors.app_errors import (AdminRoleCreateError, AdminUserCreateError,
                                DatastoreInitError)
 
-LOG = logging.getLogger()
+LOG = logging.getLogger(app_const.APP_LOGGER)
 
 
 def init_datastore() -> MongoEngineUserDatastore:
