@@ -43,9 +43,8 @@ def test_LicenseFile_init(os_mock, path_mock, name_mock):
 
 
 @patch("builtins.open", new_callable=mock_open, read_data="ut_content")
-@patch(f"{TEST_MODULE}.LOG")
 @patch(f"{TEST_MODULE}.os")
-def test_LicenseFile_read_pass(os_mock, log_mock, mock_open):
+def test_LicenseFile_read_pass(os_mock, mock_open):
     # Test read license file successfully
     lic_file = LicenseFile()
     lic_file.file_path = "ut_path"
@@ -53,8 +52,6 @@ def test_LicenseFile_read_pass(os_mock, log_mock, mock_open):
     lic_file.read()
     assert lic_file.content == "ut_content"
     mock_open.assert_called_once_with("ut_path", encoding="utf-8")
-    log_mock.info.assert_called_once_with(
-        "License file content: \n ut_content")
 
 
 @patch(f"{TEST_MODULE}.LOG")
@@ -95,8 +92,9 @@ def test_LicenseFile_parse_when_content_is_empty(os_mock):
     assert lic_file.licenses == []
 
 
+@patch(f"{TEST_MODULE}.LOG")
 @patch(f"{TEST_MODULE}.os")
-def test_LicenseFile_parse_pass(os_mock):
+def test_LicenseFile_parse_pass(os_mock, log_mock):
     # Test the content contains the follow licenses:
     # licenses contain the valid name, start, and expiration
     # license contains the valid name, start, expiration, and vendor

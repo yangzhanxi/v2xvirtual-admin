@@ -78,8 +78,6 @@ class LicenseFile:
             with open(self.file_path, encoding="utf-8") as f:
                 self.content = f.read()
 
-                LOG.info(f"License file content: \n {self.content}")
-
         except Exception as err:
             msg = "Failed to read V2X Virtual license file."
             LOG.exception(f"{msg} {err}")
