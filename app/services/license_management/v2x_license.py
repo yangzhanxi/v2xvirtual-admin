@@ -1,12 +1,19 @@
+import logging
 import os
 import re
-from typing import List
+from datetime import datetime
+from typing import List, Optional
+
+import errors.license_errors as lic_errors
+from const import APP_LOGGER, DEV_LICENSE_FOLDER, LICENSE_FILE_NAME
+
+LOG = logging.getLogger(APP_LOGGER)
 
 # FIXME: Use the license.lic path
-LICENSE_PATH = os.path.join(
-    os.path.dirname(__file__), "license_file")
-LICENSE_FILE_NAME = "license.lic"
-LICENSE_PATH = os.path.join(LICENSE_PATH)
+DEV_LICENSE_PATH = os.path.join(
+    os.path.dirname(__file__), DEV_LICENSE_FOLDER)
+
+LICENSE_PATH = os.environ.get("LICENSE_PATH", DEV_LICENSE_PATH)
 
 INCREMENT_WITH_WHITESPACE = "INCREMENT "
 NAME_REGEXP = re.compile(r"[\w-]*")
@@ -16,23 +23,18 @@ VENDOR_REGEXP = re.compile(r'VENDOR_STRING="NAME=([\w ]+)[;]{1}')
 
 class V2xLicense(object):
     """
-    This class is used for storing the V2X license information.
-
-    Attributes:
-        name: Name of the license.
-        start: The start time of the license.
-        expiration: The expriation data of the license.
+    This class is used to store the V2X Virtual license information.
     """
 
     def __init__(self, name: str, start: str, expiration: str):
         """
-        This function sets the name, start and expiration properties.
+        This function sets the name, start, and expiration properties.
 
-        Args:
-            name: (str): Name of the license.
-            start: (str): Start time of the license.
-            expiration (str): Expriation data of the license.
+        :param name: Name of the license.
+        :param start: Start time of the license.
+        :param expiration: Expiration date of the license.
         """
+
         self.__name = name
         self.__start = start
         self.__expiration = expiration
@@ -42,14 +44,14 @@ class V2xLicense(object):
         return self.__name
 
     @property
-    def start(self):
+    def start(self) -> str:
         return self.__start
 
     @property
-    def expiration(self):
+    def expiration(self) -> str:
         return self.__expiration
 
-    def to_json(self):
+    def to_dict(self) -> dict:
         return {
             "name": self.__name,
             "start": self.__start,
@@ -57,46 +59,56 @@ class V2xLicense(object):
         }
 
 
-class LicenseFile(object):
+class LicenseFile:
     """
-    This is the V2X license file class.
+    This is the V2X Virtual license file class.
     """
+
     def __init__(self):
         self.file_path: str = os.path.join(LICENSE_PATH, LICENSE_FILE_NAME)
-        self.content: str = None
+        self.content: Optional[str] = None
         self.licenses: List[V2xLicense] = []
 
-    def read(self):
+    def read(self) -> None:
         """
-        Read license file.
+        Read the V2X Virtual license file.
         """
+
         try:
-            with open(self.file_path, encoding='utf-8') as f:
+            with open(self.file_path, encoding="utf-8") as f:
                 self.content = f.read()
-                print(self.content)
+
         except Exception as err:
-            print(f"Failed to open license file. {err}")
+            msg = "Failed to read V2X Virtual license file."
+            LOG.exception(f"{msg} {err}")
+            raise lic_errors.LicenseFileReadError(
+                message=msg,
+                error_details=str(err))
 
-    def write(self):
+    def write(self) -> None:
         """
-        Placeholder function for upload file.
+        Placeholder function for uploading V2X Virtual license file.
         """
-        pass
 
-    def parse(self):
+        raise NotImplementedError
+
+    def parse(self) -> None:
         """
-        Parse the content of license.lic file, extract the name, start time,
-        and expiration data.
+        Parse the content of the V2X Virtual license file,
+        extract the name, start time, and expiration date.
         """
+
+        if self.content is None:
+            return
+
         for license in self.content.split(INCREMENT_WITH_WHITESPACE):
-            # if (license.find('START') < 0):
-            #     # Skip the content doesn't contain the word START
-            #     continue
-
             formatted_license = \
                 license.replace('\n', '').replace('\t', '').replace('\\', '')
-            # print(formatted_license)
-            name = NAME_REGEXP.match(formatted_license).group(0)
+
+            match_name = NAME_REGEXP.match(formatted_license)
+            if match_name:
+                name = match_name.group(0)
+
             start_and_expiration = TIME_REGEXP.findall(formatted_license)
             vendor = VENDOR_REGEXP.search(formatted_license)
 
@@ -104,9 +116,40 @@ class LicenseFile(object):
                 license_name = vendor.group(1) \
                     if vendor else name.replace("_", " ").replace("-", " ")
 
-                self.licenses.append(
-                    V2xLicense(license_name,
-                               start_and_expiration[0],
-                               start_and_expiration[1]))
+                try:
+                    start = _convert_date_format(start_and_expiration[1])
+                    expiration = _convert_date_format(start_and_expiration[0])
+
+                    self.licenses.append(
+                        V2xLicense(license_name, start, expiration))
+
+                except Exception as err:
+                    LOG.info(f"Failed to parse V2X Virtual License. {err}")
+
             else:
+                # Ignore any lines that do not contain
+                # the name, vendor, start, and expiration information.
                 continue
+
+
+def _convert_date_format(input_string: str) -> str:
+    """
+    Converts the date format from '01-may-2023' to '2023.05.01'.
+
+    :param input_string: Input date string.
+    :return: Desired date string format.
+    """
+
+    try:
+        input_date = datetime.strptime(input_string, "%d-%b-%Y")
+
+        output_date_string = input_date.strftime("%Y.%m.%d")
+
+        return output_date_string
+
+    except Exception as err:
+        msg = f"Invalid date format: {input_string}."
+        LOG.exception(f"{msg} {err}")
+        raise lic_errors.DateFormatError(
+            message=msg,
+            error_details=str(err))

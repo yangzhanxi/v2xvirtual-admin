@@ -1,5 +1,5 @@
 from flask_security import RoleMixin, UserMixin
-from mongoengine import Document, fields
+from mongoengine import Document, fields  # type: ignore
 
 from const import DB_NAME
 

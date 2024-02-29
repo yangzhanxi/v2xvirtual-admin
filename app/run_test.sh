@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Run unit tests
 python -m pytest \
@@ -8,4 +9,5 @@ python -m pytest \
     --mypy \
     --cache-clear \
     --cov=. \
-    -k "./venv"
+    --junitxml=build/pytest.xml\
+    "$@"

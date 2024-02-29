@@ -19,3 +19,13 @@ SECURITY_PASSWORD_SALT = "329072734491176369717098496818781888587"
 # Parameters for the HTTP request.
 USER_NAME_KEY = "username"
 PASSWORD_KEY = "password"
+
+# Dev license file info
+DEV_LICENSE_FOLDER = "license_file"
+LICENSE_FILE_NAME = "license.lic"
+
+# Log file dir
+LOG_FILE_DIR = "log"
+LOG_FILE_NAME = "v2xvirtual-admin.log"
+
+APP_LOGGER = "app_logger"
