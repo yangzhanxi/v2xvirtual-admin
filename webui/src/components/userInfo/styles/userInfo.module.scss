@@ -1,0 +1,40 @@
+@use 'styles/theme.scss';
+
+.roundedIcon {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin: 0 10px;
+}
+
+.collapsedIcon {
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+    fill: theme.$white-color;
+}
+
+.text {
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 10px;
+    color: theme.$white-color;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding-top: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: theme.$main-darkened-color;
+    }
+}
+
+.root {
+    display: flex;
+    height: 100%;
+}

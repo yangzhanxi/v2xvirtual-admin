@@ -1,0 +1,40 @@
+@use 'styles/theme.scss';
+
+.root {
+    width: 100%;
+    height: 50px;
+    background-color: theme.$gray-color;
+    color: theme.$white-color;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+}
+
+.left {
+    flex: 1 1 0;
+    margin-left: 15px;
+}
+
+.logo {
+    padding-top: 12px;
+    width: 115px;
+    height: 50px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    line-height: 50px;
+    padding: 0 5px;
+    text-align: center;
+}
+
+.right {
+    flex: 1 1 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 15px;
+    align-items: center;
+}

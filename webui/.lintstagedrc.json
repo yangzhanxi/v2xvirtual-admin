@@ -1,0 +1,8 @@
+{
+    "*.{js,ts,jsx,tsx}": [
+        "eslint",
+        "prettier --check ./src/**/*.{js,ts,jsx,tsx}",
+        "jest --bail --findRelatedTests"
+    ],
+    "*.{css,scss}": "stylelint"
+}

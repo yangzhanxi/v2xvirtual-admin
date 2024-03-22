@@ -1,0 +1,19 @@
+@use 'styles/theme.scss';
+
+.root {
+    display: flex;
+    flex-direction: row;
+    background-color: theme.$main-lightened-color;
+    height: 45px;
+    align-items: center;
+}
+
+.title {
+    padding-left: 15px;
+    justify-content: center;
+}
+
+.address {
+    padding-left: 10px;
+    justify-content: center;
+}

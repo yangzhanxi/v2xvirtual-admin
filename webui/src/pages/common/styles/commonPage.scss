@@ -1,0 +1,28 @@
+@use 'styles/theme.scss';
+
+.headerBar {
+    width: 100%;
+}
+
+.appIconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 150px;
+}
+
+.appIcon {
+    fill: theme.$white-color;
+    height: 80%;
+    width: 80%;
+}
+
+.simulationActiveBanner {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: theme.$gray-color;
+    border-color: theme.$warning-color;
+    background: theme.$warning-lightened-color;
+}

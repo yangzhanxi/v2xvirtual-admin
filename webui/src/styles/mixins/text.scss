@@ -1,0 +1,20 @@
+@mixin text-overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    // hide safari native ellipsis tooltip
+    &::before {
+        display: block;
+        content: '';
+    }
+}
+
+@mixin link {
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

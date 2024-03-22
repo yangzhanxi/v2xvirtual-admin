@@ -2,6 +2,7 @@ import os
 import secrets
 
 from flask import Flask, helpers
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_security import Security
 
@@ -22,6 +23,10 @@ def create_app() -> Flask:
     config_log(helpers.get_debug_flag())
 
     app = Flask(__name__)
+
+    app = Flask(__name__, static_folder="./dist/",
+                template_folder="./dist/")
+    CORS(app)
 
     # App configuration
     app.config["SECRET_KEY"] = os.environ.get(

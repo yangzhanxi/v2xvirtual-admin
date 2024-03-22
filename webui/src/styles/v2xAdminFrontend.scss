@@ -1,0 +1,19 @@
+@use './theme.scss';
+@use './fonts.scss';
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    color: theme.$default-text-color;
+    font-family: theme.$default-text-font-family;
+    font-size: theme.$default-text-font-size;
+    font-weight: theme.$default-text-font-weight;
+    font-style: theme.$default-text-font-style;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}

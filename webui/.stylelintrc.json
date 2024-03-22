@@ -1,0 +1,21 @@
+{
+    "plugins": ["stylelint-scss"],
+    "extends": "stylelint-config-standard",
+    "rules": {
+        "at-rule-no-unknown": [
+            true,
+            {
+                "ignoreAtRules": ["use", "include", "mixin", "function", "return"]
+            }
+        ],
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+              "ignorePseudoClasses": [
+                "export"
+              ]
+            }
+          ],
+        "indentation": [4]
+    }
+}

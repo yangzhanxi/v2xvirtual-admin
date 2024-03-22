@@ -45,6 +45,7 @@ def login():
                     HTTPStatus.INTERNAL_SERVER_ERROR)
 
     if user and verify_password(password, user.password):
+        LOG.info(session)
         if '_user_id' in session and session['_user_id'] == user.get_id():
             return auth_response.ALREADY_LOGGED_IN
 
