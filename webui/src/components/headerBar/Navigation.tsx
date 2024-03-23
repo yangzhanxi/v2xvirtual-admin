@@ -1,30 +1,37 @@
-import React from 'react';
 import {Link, useRouteMatch} from 'react-router-dom';
-// import {usePathname} from 'next/navigation';
+import React from 'react';
 
-import routePaths from 'routePaths';
 import {HeaderLogo} from 'assets/icons';
+import routePaths from 'routePaths';
+import UserInfo from 'components/userInfo/UserInfo';
 
-// import UserInfo from '@/components/userInfo/UserInfo';
 import HeaderBar, {HeaderBarItems, HeaderButton} from './HeaderBar';
 import styles from './styles/navigation.scss';
 
 const Navigator: React.FC = () => {
-    // const isDashboardPage = !!useRouteMatch({path: routePaths.INDEX, exact: true});
+    const isDashboardPage = !!useRouteMatch({path: routePaths.INDEX, exact: true});
     const isLicensesPage = !!useRouteMatch({path: routePaths.LICENSES, exact: true});
 
     const leftItems = (
         <HeaderBarItems>
             <Link to={routePaths.INDEX}>
-                <img className={styles.appIconContainer} alt="V2X Virtual Admin" src={HeaderLogo} />
+                <HeaderLogo className={styles.appIconContainer} />
             </Link>
             <Link to={routePaths.LICENSES}>
-                <HeaderButton text={'License Management'} data-cy="dashboard" isActive={isLicensesPage} />
+                <HeaderButton
+                    text={'License Management'}
+                    data-cy="dashboard"
+                    isActive={isLicensesPage || isDashboardPage}
+                />
             </Link>
         </HeaderBarItems>
     );
 
-    const rightTtems = <HeaderBarItems>{/* <UserInfo/> */}</HeaderBarItems>;
+    const rightTtems = (
+        <HeaderBarItems>
+            <UserInfo />
+        </HeaderBarItems>
+    );
 
     return (
         <div>

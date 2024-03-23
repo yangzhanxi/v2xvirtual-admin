@@ -9,11 +9,15 @@
 }
 
 .title {
+    font-size: medium;
+    font-style: theme.$default-text-font-style;
     padding-left: 15px;
     justify-content: center;
 }
 
 .address {
+    font-size: medium;
+    font-style: theme.$default-text-font-style;
     padding-left: 10px;
     justify-content: center;
 }

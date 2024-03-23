@@ -12,5 +12,5 @@ app/build
 app/services/license_management/license_file
 app/dist
 
-webui/node_module
+webui/node_modules
 webui/dist

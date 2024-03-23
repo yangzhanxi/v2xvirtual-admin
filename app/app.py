@@ -1,5 +1,6 @@
 import os
 import secrets
+from datetime import timedelta
 
 from flask import Flask, helpers
 from flask_cors import CORS
@@ -35,6 +36,7 @@ def create_app() -> Flask:
     app.config["SECURITY_PASSWORD_SALT"] = os.environ.get(
         "SECURITY_PASSWORD_SALT", SECURITY_PASSWORD_SALT)
 
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=2)
     app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe()
 
     user_datastore = init_datastore()

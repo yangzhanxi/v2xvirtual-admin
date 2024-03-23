@@ -7,7 +7,8 @@ import styles from './styles/footerBar.scss';
 const FooterBar: React.FC = () => {
     const renderLogo = (
         <div className={styles.left}>
-            <img className={styles.logo} alt="img" src={SpirentLogoIcon} />
+            {/* <img className={styles.logo} alt="img" src={SpirentLogoIcon} /> */}
+            <SpirentLogoIcon className={styles.logo} />
         </div>
     );
     const date = new Date();

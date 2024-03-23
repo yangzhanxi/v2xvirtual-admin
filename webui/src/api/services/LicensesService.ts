@@ -8,7 +8,9 @@ export class LicnesesControllerService {
             method: 'GET',
             path: `/licenses`,
             errors: {
-                500: `Error`,
+                401: `Invalid token or user not logged in`,
+                422: `Invalid token or user not logged in`,
+                403: `Invalid token or user not logged in`,
             },
         });
 

@@ -1,6 +1,6 @@
 import {all} from 'redux-saga/effects';
 
-// import environmentSaga from 'domain/environment/environmentSaga';
+import environmentSaga from 'domain/environment/environmentSaga';
 // import scenariosPageSaga from 'pages/scenarios/scenariosPageSaga';
 // import simulationHmiEventSseSaga from 'domain/simulation/simulationHmiEventSaga';
 // import simulationInfoSaga from 'domain/simulation/simulationInfoSaga';
@@ -10,10 +10,9 @@ import {all} from 'redux-saga/effects';
 import licenseManagementSaga from 'domain/licenseManagement/licenseManagementSaga';
 
 function getSagas() {
-    console.log('11233');
     return [
         licenseManagementSaga(),
-        // environmentSaga(),
+        environmentSaga(),
         // simulationSaga(),
         // scenariosPageSaga(),
         // simulationInfoSaga(),

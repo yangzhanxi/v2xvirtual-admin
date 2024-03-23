@@ -1,17 +1,15 @@
-import React, {useEffect} from 'react';
-import ReactDOM, {createRoot} from 'react-dom/client';
 import {ConnectedRouter} from 'connected-react-router';
 import {Provider} from 'react-redux';
+import React from 'react';
 import ReactModal from 'react-modal';
+import {createRoot} from 'react-dom/client';
 import {enableMapSet} from 'immer';
 
-// import {init} from 'i18n/config';
 import './dependencies';
-import store, {runSaga} from './store/store';
 
-import './index.css';
 import history from 'store/history';
 
+import store, {runSaga} from './store/store';
 import {Routes} from './routes';
 
 runSaga();

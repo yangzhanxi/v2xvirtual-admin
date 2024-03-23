@@ -14,7 +14,7 @@ lic = Blueprint("license", __name__)
 
 @lic.get("/licenses")
 @jwt_required()
-@login_required
+# @login_required
 @roles_accepted(ADMIN_ROLE)
 def get_licenses():
     """

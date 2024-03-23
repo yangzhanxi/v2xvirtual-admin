@@ -81,7 +81,16 @@ module.exports = function config(env, options) {
                 },
                 {
                     test: /\.svg$/,
-                    use: [fileLoader]
+                    use: {
+                        loader: '@svgr/webpack',
+                        options: {
+                            memo: true,
+                            ref: true,
+                            svgoConfig: {
+                                plugins: [{prefixIds: false}],
+                            },
+                        },
+                    },
                 },
                 {
                     test: [/\.woff2$/],
@@ -135,5 +144,4 @@ module.exports = function config(env, options) {
             }),
         ],
     };
-
-}
+};

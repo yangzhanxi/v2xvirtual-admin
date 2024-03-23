@@ -33,7 +33,6 @@ export type AppDispatch = typeof store.dispatch;
 let sagaIsRunning = false;
 
 export function runSaga() {
-    console.log(111);
     if (sagaIsRunning) {
         console.error('saga already running');
 

@@ -5,6 +5,7 @@
     width: 35px;
     height: 35px;
     margin: 0 10px;
+    fill: theme.$white-color;
 }
 
 .collapsedIcon {
@@ -28,7 +29,7 @@
     height: 100%;
     padding-top: 5px;
     cursor: pointer;
-
+    // background-color: theme.$main-darkened-color;
     &:hover {
         background-color: theme.$main-darkened-color;
     }

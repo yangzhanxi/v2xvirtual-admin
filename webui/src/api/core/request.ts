@@ -128,7 +128,7 @@ async function sendRequest(options: ApiRequestOptions, url: string): Promise<Res
     if (OpenAPI.WITH_CREDENTIALS) {
         request.credentials = 'include';
     }
-    console.log(url)
+
     return await fetch(url, request);
 }
 
@@ -163,6 +163,7 @@ function catchErrors(options: ApiRequestOptions, result: ApiResult): void {
     const errors: Record<number, string> = {
         400: 'Bad Request',
         401: 'Unauthorized',
+        422: 'Unprocessable Entity',
         403: 'Forbidden',
         404: 'Not Found',
         500: 'Internal Server Error',

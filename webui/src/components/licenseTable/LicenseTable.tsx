@@ -1,13 +1,8 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SpinnerOverlay, Table, TableColumn, TableRow} from 'orion-rwc';
 
-// import {useGetLicensesQuery} from 'lib/features/licenseManagement/licensesApiSlice';
-// import {License, LicenseApiResponse} from '@/lib/features/licenseManagement/licenseModels';
-import {getLicensesRequested} from 'domain/licenseManagement/licenseManagementSlice';
-import {isLicensesLoadingSelector, isLicensesSelector} from 'domain/licenseManagement/licenseManagementSelector';
-import {useAppDispatch, useAppSelector} from 'store/hooks';
-import {useAsync} from 'utils/hooks';
 import {LicnesesControllerService} from 'api/services/LicensesService';
+import {useAsync} from 'utils/hooks';
 
 import {LicenseRowItem, createLicenseRowItem, tableSortOption} from './models';
 import {sortByExpiration, sortByName, sortByOrdinalNumber, sortByStartTime, sortLicenses} from './utils';
@@ -17,13 +12,16 @@ const LicenseTable: React.FC = () => {
     const [localSortOrder, setLocalSortOrder] = useState(Table.SortOrder.ASC);
     const [localSortOption, setLocalSortOprtion] = useState(tableSortOption.ORDINAL_NUMBER);
     const [localRowItems, setLocalRowItems] = useState<LicenseRowItem[]>([]);
+    const [error, setError] = useState<Error | null>(null);
 
     const {exec: getLic, isPending} = useAsync(async () => {
         try {
             const data = await LicnesesControllerService.getLicenses();
             setLocalRowItems(data.sort(sortLicenses).map((lic, index) => createLicenseRowItem(index, lic)));
         } catch (err) {
-            console.log(err);
+            if (err instanceof Error) {
+                setError(err);
+            }
         }
     });
     useEffect(() => {
@@ -147,7 +145,7 @@ const LicenseTable: React.FC = () => {
         if (isPending) {
             return renderSpinner();
         }
-        if (!isPending && localRowItems.length === 0) {
+        if ((!isPending && localRowItems.length === 0) || error) {
             return renderNoLicense();
         }
 
