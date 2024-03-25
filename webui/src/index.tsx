@@ -5,6 +5,7 @@ import ReactModal from 'react-modal';
 import {createRoot} from 'react-dom/client';
 import {enableMapSet} from 'immer';
 
+import 'api/preconfiguration';
 import './dependencies';
 
 import history from 'store/history';
@@ -15,9 +16,6 @@ import {Routes} from './routes';
 runSaga();
 
 const App: React.FC = () => {
-    // useEffect(() => {
-    //     init(store.dispatch);
-    // });
     return (
         <Provider store={store}>
             <ConnectedRouter history={history}>

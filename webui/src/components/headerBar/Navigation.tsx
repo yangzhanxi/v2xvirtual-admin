@@ -1,9 +1,9 @@
 import {Link, useRouteMatch} from 'react-router-dom';
 import React from 'react';
 
-import {HeaderLogo} from 'assets/icons';
-import routePaths from 'routePaths';
+import {FilesIcon, HeaderLogo} from 'assets/icons';
 import UserInfo from 'components/userInfo/UserInfo';
+import routePaths from 'routePaths';
 
 import HeaderBar, {HeaderBarItems, HeaderButton} from './HeaderBar';
 import styles from './styles/navigation.scss';
@@ -19,6 +19,7 @@ const Navigator: React.FC = () => {
             </Link>
             <Link to={routePaths.LICENSES}>
                 <HeaderButton
+                    Icon={FilesIcon}
                     text={'License Management'}
                     data-cy="dashboard"
                     isActive={isLicensesPage || isDashboardPage}

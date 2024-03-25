@@ -6,4 +6,6 @@ export const isEnvironmentInitializedSelector = (state: RootState) => state.envi
 
 export const isEnvironmentLoadingSelector = (state: RootState) => state.environment.isLoading;
 
-export const isUserNameSelector = (state: RootState) => state.environment.userData.user;
+export const isUserSelector = (state: RootState) => state.environment.userData.user;
+
+export const isUserLoadingSelector = (state: RootState) => state.environment.userData.user?.isLoading;

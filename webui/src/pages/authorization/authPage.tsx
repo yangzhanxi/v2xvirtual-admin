@@ -1,14 +1,15 @@
+import {Button, SpinnerOverlay} from 'orion-rwc';
 import {FormProvider, useForm} from 'react-hook-form';
-import {Button} from 'orion-rwc';
 import React from 'react';
 import {useHistory} from 'react-router';
 
-import CommonPage from 'pages/common/commonPage';
+import {AccountDataRequest, tokenUpdated} from 'domain/environment/environmentSlice';
 import {AuthControllerService} from 'api/services/AuthControllerService';
+import CommonPage from 'pages/common/commonPage';
+import ErrorMessage from 'components/errorMessage/errorMessage';
 import InputController from 'components/inputController/InputController';
 import PasswordInputController from 'components/passwordInputCtl/PasswordInputController';
 import routePaths from 'routePaths';
-import {tokenUpdated} from 'domain/environment/environmentSlice';
 import {useAppDispatch} from 'store/hooks';
 import {useAsync} from 'utils/hooks';
 
@@ -18,14 +19,15 @@ const USERNAME = 'username';
 const PASSWORD = 'password';
 
 const AuthorizationPage: React.FC = () => {
+    const dispatch = useAppDispatch();
     const formMethods = useForm<{[USERNAME]: string; [PASSWORD]: string}>({
         defaultValues: {
             [USERNAME]: '',
             [PASSWORD]: '',
         },
     });
+
     const {handleSubmit, watch} = formMethods;
-    const dispatch = useAppDispatch();
     const username = watch(USERNAME, '');
     const password = watch(PASSWORD, '');
     const history = useHistory();
@@ -39,20 +41,20 @@ const AuthorizationPage: React.FC = () => {
         });
 
         dispatch(tokenUpdated({token: response.access_token}));
-
-        // wait for 1 second to update the store before redirecting (race condition)
+        dispatch(AccountDataRequest.actions.fulfilled({username: response.username}));
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         // if there is a query param with redirectTo, use it
         const redirectTo = new URLSearchParams(history.location.search).get('redirectTo');
         history.push(redirectTo ? redirectTo : routePaths.INDEX);
     });
-    if (isPending) {
-        console.log('loading');
-    }
-    if (error) {
-        console.log('has error');
-    }
+
+    const errorMessage = error ? (
+        <div className={styles.errorMessage}>
+            <ErrorMessage text={`Could not login: ${error.message}`} />
+        </div>
+    ) : null;
+
     return (
         <CommonPage hideHeaderBar={true}>
             <div className={styles.root}>
@@ -61,6 +63,7 @@ const AuthorizationPage: React.FC = () => {
                     <form onSubmit={handleSubmit(exec)}>
                         <div className={styles.authContainer}>
                             <div className={styles.title}>{'Sign in to V2X Virtual Admin'}</div>
+                            {errorMessage}
                             <div className={styles.inputContainer}>
                                 <InputController placeholder={'usename'} name={USERNAME} isInputRounded={true} />
                             </div>
@@ -79,6 +82,7 @@ const AuthorizationPage: React.FC = () => {
                         </div>
                     </form>
                 </FormProvider>
+                {isPending ? <SpinnerOverlay /> : null}
             </div>
         </CommonPage>
     );

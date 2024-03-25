@@ -17,7 +17,6 @@ function* handleLicensesRequest() {
         );
 
         yield put(updateLicenses({licenses: licenses}));
-        console.log(licenses);
     } catch (e) {
         console.log(e);
     }

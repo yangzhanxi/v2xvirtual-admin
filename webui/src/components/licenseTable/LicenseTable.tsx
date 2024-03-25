@@ -12,15 +12,18 @@ const LicenseTable: React.FC = () => {
     const [localSortOrder, setLocalSortOrder] = useState(Table.SortOrder.ASC);
     const [localSortOption, setLocalSortOprtion] = useState(tableSortOption.ORDINAL_NUMBER);
     const [localRowItems, setLocalRowItems] = useState<LicenseRowItem[]>([]);
-    const [error, setError] = useState<Error | null>(null);
 
-    const {exec: getLic, isPending} = useAsync(async () => {
+    const {
+        exec: getLic,
+        isPending,
+        error,
+    } = useAsync(async () => {
         try {
             const data = await LicnesesControllerService.getLicenses();
             setLocalRowItems(data.sort(sortLicenses).map((lic, index) => createLicenseRowItem(index, lic)));
         } catch (err) {
             if (err instanceof Error) {
-                setError(err);
+                console.log(err?.message);
             }
         }
     });

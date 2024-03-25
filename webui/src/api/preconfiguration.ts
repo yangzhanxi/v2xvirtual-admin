@@ -10,10 +10,7 @@ Object.defineProperty(ApiError.prototype, 'status', {
         /* Handle Unauthorized error and reset state. API generator haven't any
         options to register custom listeners on errors.
         */
-        if (status === 401) {
-            appDispatch(stateReset());
-        }
-        if (status === 422) {
+        if (status === 401 || status === 422 || status === 403) {
             appDispatch(stateReset());
         }
     },

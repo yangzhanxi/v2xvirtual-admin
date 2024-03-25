@@ -20,7 +20,8 @@ export class AuthControllerService {
             path: `/login`,
             body: requestBody,
             errors: {
-                401: `Invalid user, wrong password`,
+                401: `Invalid user or wrong password`,
+                422: `Invalid user or wrong password`,
             },
         });
         return result.body;

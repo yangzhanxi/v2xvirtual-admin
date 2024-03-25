@@ -1,26 +1,24 @@
-import React, {useState} from 'react';
 import {Placement, SpinnerOverlay} from 'orion-rwc';
+import React, {useState} from 'react';
 
-import {isUserNameSelector} from 'domain/environment/environmentSelector';
-import ContextMenu from 'components/contextMenu/contextMenu';
 import {ExpandedIcon, UserIcon} from 'assets/icons';
 import {useAppDispatch, useAppSelector} from 'store/hooks';
 import {AuthControllerService} from 'api/services/AuthControllerService';
+import ContextMenu from 'components/contextMenu/contextMenu';
+import {isUserSelector} from 'domain/environment/environmentSelector';
 import {stateReset} from 'store/globalActions';
 import {useAsync} from 'utils/hooks';
 
 import styles from './styles/userInfo.scss';
 
 const UserInfo: React.FC = () => {
-    const [isOpenedMenu, setIsOpenedMenu] = useState(false);
     const dispatch = useAppDispatch();
-    const {response: user} = useAppSelector(isUserNameSelector);
+    const {response: user} = useAppSelector(isUserSelector);
+    const [isOpenedMenu, setIsOpenedMenu] = useState(false);
     const {exec, isPending} = useAsync(async () => {
         await AuthControllerService.logout();
         dispatch(stateReset());
     });
-
-    // const userIcon = <img src={UserIcon} className={styles.roundedIcon} />;
 
     const button = (
         <div
@@ -30,7 +28,6 @@ const UserInfo: React.FC = () => {
             }}>
             <UserIcon className={styles.roundedIcon} />
             <div className={styles.text} data-cy="user-info">{`${user?.username}`}</div>
-            {/* <img src={ExpandedIcon} className={styles.collapsedIcon} /> */}
             <ExpandedIcon className={styles.collapsedIcon} />
         </div>
     );

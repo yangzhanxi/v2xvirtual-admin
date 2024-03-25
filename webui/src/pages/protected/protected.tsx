@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
+import {SpinnerOverlay} from 'orion-rwc';
 
 import {
     isEnvironmentInitializedSelector,
     isEnvironmentLoadingSelector,
+    isUserLoadingSelector,
     userTokenSelector,
 } from 'domain/environment/environmentSelector';
 import {AccountDataRequest} from 'domain/environment/environmentSlice';
@@ -22,6 +24,7 @@ const Protected = ({children}: ProtectedProps) => {
     const userAccountDataRequest = AccountDataRequest.useRequest();
     const isEnvironmentInitialized = useAppSelector(isEnvironmentInitializedSelector);
     const isEnvLoading = useAppSelector(isEnvironmentLoadingSelector);
+    const isUserLoading = useAppSelector(isUserLoadingSelector);
 
     useEffect(() => {
         userAccountDataRequest();
@@ -38,10 +41,10 @@ const Protected = ({children}: ProtectedProps) => {
         }
     }, [token]);
 
-    if (isEnvLoading === true) {
+    if (isEnvLoading === true || isUserLoading === true) {
         return (
             <div className={styles.root}>
-                <span> LOADING</span>
+                <SpinnerOverlay />
             </div>
         );
     }
