@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {SpinnerOverlay, Table, TableColumn, TableRow} from 'orion-rwc';
+import {useTranslation} from 'react-i18next';
 
 import {LicnesesControllerService} from 'api/services/LicensesService';
 import {useAsync} from 'utils/hooks';
@@ -30,6 +31,8 @@ const LicenseTable: React.FC = () => {
     useEffect(() => {
         getLic();
     }, [getLic]);
+
+    const {t} = useTranslation('components');
 
     const getCompareFunc = (a: LicenseRowItem, b: LicenseRowItem) => {
         if (localSortOption === tableSortOption.SORT_BY_NAME) {
@@ -83,17 +86,17 @@ const LicenseTable: React.FC = () => {
     const columns: TableColumn[] = [
         {
             align: 'center',
-            content: 'Name',
+            content: t('licenseTable.colmunNames.name'),
             sortOption: 'sortByName',
         },
         {
             align: 'center',
-            content: 'Start',
+            content: t('licenseTable.colmunNames.start'),
             sortOption: 'sortByStart',
         },
         {
             align: 'center',
-            content: 'Expiration',
+            content: t('licenseTable.colmunNames.expiration'),
             sortOption: 'sortByExpiration',
         },
     ];

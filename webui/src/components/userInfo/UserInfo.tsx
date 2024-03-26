@@ -1,5 +1,6 @@
 import {Placement, SpinnerOverlay} from 'orion-rwc';
 import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 
 import {ExpandedIcon, UserIcon} from 'assets/icons';
 import {useAppDispatch, useAppSelector} from 'store/hooks';
@@ -19,6 +20,7 @@ const UserInfo: React.FC = () => {
         await AuthControllerService.logout();
         dispatch(stateReset());
     });
+    const {t} = useTranslation('components');
 
     const button = (
         <div
@@ -41,7 +43,7 @@ const UserInfo: React.FC = () => {
             groups={[
                 [
                     {
-                        title: 'Logout',
+                        title: t('userInfo.logout'),
                         onSelect: exec,
                     },
                 ],

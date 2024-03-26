@@ -1,5 +1,6 @@
 import {Link, useRouteMatch} from 'react-router-dom';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 import {FilesIcon, HeaderLogo} from 'assets/icons';
 import UserInfo from 'components/userInfo/UserInfo';
@@ -9,6 +10,7 @@ import HeaderBar, {HeaderBarItems, HeaderButton} from './HeaderBar';
 import styles from './styles/navigation.scss';
 
 const Navigator: React.FC = () => {
+    const {t} = useTranslation('components');
     const isDashboardPage = !!useRouteMatch({path: routePaths.INDEX, exact: true});
     const isLicensesPage = !!useRouteMatch({path: routePaths.LICENSES, exact: true});
 
@@ -20,7 +22,7 @@ const Navigator: React.FC = () => {
             <Link to={routePaths.LICENSES}>
                 <HeaderButton
                     Icon={FilesIcon}
-                    text={'License Management'}
+                    text={t('navigation.licenseManagement')}
                     data-cy="dashboard"
                     isActive={isLicensesPage || isDashboardPage}
                 />

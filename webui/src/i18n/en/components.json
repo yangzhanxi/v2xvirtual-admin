@@ -1,0 +1,19 @@
+{
+    "v2xAddress": "V2X Virtual Address",
+    "userInfo": {
+        "logout": "Logout"
+    },
+    "licenseTable": {
+        "colmunNames": {
+            "name": "Name",
+            "start": "Start",
+            "expiration": "Expiration"
+        }
+    },
+    "licensesBlock": {
+        "licenses": "Licenses"
+    },
+    "navigation": {
+        "licenseManagement": "License Managgement"
+    }
+}

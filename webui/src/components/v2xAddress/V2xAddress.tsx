@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 
 import styles from './styles/v2xAddress.scss';
 
 const V2xAddress: React.FC = () => {
+    const {t} = useTranslation('components');
     const [hostAddr, setHostAddr] = useState('');
     useEffect(() => {
         const address = window.location.hostname;
@@ -12,7 +14,7 @@ const V2xAddress: React.FC = () => {
     return (
         <div className={styles.root}>
             <div className={styles.title}>
-                <span>V2X Virtual Address: </span>
+                <span>{t('v2xAddress')}: </span>
             </div>
             <div className={styles.address}>{hostAddr}</div>
         </div>

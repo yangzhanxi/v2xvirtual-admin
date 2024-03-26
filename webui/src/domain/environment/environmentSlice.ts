@@ -10,6 +10,7 @@ export const AccountDataRequest = new RequestModel({
 });
 
 type State = {
+    language: string;
     isLoading: boolean;
     isInitialized: boolean;
     userData: {
@@ -19,6 +20,7 @@ type State = {
 };
 
 const DEFAULT_STATE: State = {
+    language: '',
     isInitialized: false,
     isLoading: false,
     userData: {
@@ -41,6 +43,10 @@ const environmentSlice = createSlice({
         tokenUpdated(state, action: PayloadAction<{token: string}>) {
             state.userData.token = action.payload.token;
         },
+        languageLoaded(state, action: PayloadAction<{language: string}>) {
+            const {language} = action.payload;
+            state.language = language;
+        },
     },
     extraReducers: builder => {
         builder.addCase(stateReset, state => {
@@ -50,6 +56,6 @@ const environmentSlice = createSlice({
     },
 });
 
-export const {isLoading, isInitialized, tokenUpdated} = environmentSlice.actions;
+export const {isLoading, isInitialized, tokenUpdated, languageLoaded} = environmentSlice.actions;
 
 export default environmentSlice.reducer;
