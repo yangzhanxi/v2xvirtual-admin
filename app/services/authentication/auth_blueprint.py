@@ -3,12 +3,10 @@ from http import HTTPStatus
 from typing import Set
 
 from flask import Blueprint, current_app, jsonify, request, session
-from flask_jwt_extended import (create_access_token, jwt_required)
-from flask_security import (login_required,
-                            login_user,
-                            logout_user,
-                            verify_password)
+from flask_jwt_extended import create_access_token, jwt_required
 from flask_login import current_user
+from flask_security import (login_required, login_user, logout_user,
+                            verify_password)
 
 import services.authentication.responses as auth_response
 from const import APP_LOGGER, PASSWORD_KEY, USER_NAME_KEY
