@@ -1,0 +1,64 @@
+$base-assets-path: '/assets';
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src:
+        url('#{$base-assets-path}/fonts/OpenSans-Regular.woff2')
+        format('woff2');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 400;
+    src:
+        url('#{$base-assets-path}/fonts/OpenSans-Italic.woff2')
+        format('woff2');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 500;
+    src:
+        url('#{$base-assets-path}/fonts/OpenSans-Semibold.woff2')
+        format('woff2');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 500;
+    src:
+        url('#{$base-assets-path}/fonts/OpenSans-SemiboldItalic.woff2')
+        format('woff2');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src:
+        url('#{$base-assets-path}/fonts/OpenSans-Bold.woff2')
+        format('woff2');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: italic;
+    font-weight: 600;
+    src:
+        url('#{$base-assets-path}/fonts/OpenSans-BoldItalic.woff2')
+        format('woff2');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src:
+        url('#{$base-assets-path}/fonts/OpenSans-ExtraBold.woff2')
+        format('woff2');
+}

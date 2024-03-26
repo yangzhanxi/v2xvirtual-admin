@@ -1,0 +1,85 @@
+@use 'styles/theme.scss';
+
+.root {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    background: url(./login-image.jpg) theme.$main-color no-repeat;
+}
+
+.icon {
+    width: 350px;
+    height: 60px;
+    font-size: 40px;
+    font-style: italic;
+    color: theme.$white-color;
+    // font-weight: 100;
+    // fill: theme.$lightest-gray-color
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // height: 100%;
+    // width: 100%;
+}
+
+.info {
+    text-align: center;
+
+    .eInfoLink {
+        font-weight: 500;
+        color: theme.$main-color;
+
+        &:hover {
+            color: theme.$main-darkened-color;
+        }
+    }
+}
+
+// .background {
+//     position: relative;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     top: 0;
+//     background: url(./login-image.jpg) theme.$main-color no-repeat;
+//     background-size: cover;
+//     z-index: -1;
+// }
+
+.authContainer {
+    padding: 15px 30px;
+    width: 450px;
+    border-radius: 10px;
+    background-color: theme.$lightest-gray-color;
+}
+
+.inputContainer {
+    margin: 15px 0;
+}
+
+.checkboxContainer {
+    display: inline-flex;
+}
+
+.label {
+    margin-left: 6px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    height: 50px;
+    border-bottom: 1px solid theme.$main-color;
+}
+
+.submitButton {
+    margin-left: auto;
+}
+
+.errorMessage {
+    margin-top: 15px;
+}

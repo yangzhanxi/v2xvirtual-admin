@@ -10,3 +10,7 @@ app/.pytest_cache
 app/.mypy_cache
 app/build
 app/services/license_management/license_file
+app/dist
+
+webui/node_modules
+webui/dist

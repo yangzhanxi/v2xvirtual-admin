@@ -1,0 +1,29 @@
+@use 'styles/theme.scss';
+
+.root {
+    display: flex;
+    background-color: theme.$main-color;
+    padding: 0 10px;
+    font-weight: 500;
+    color: theme.$white-color;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+    min-width: 45px;
+
+    &:hover,
+    &.mRootActive {
+        background-color: theme.$main-darkened-color;
+    }
+}
+
+.icon {
+    width: 15px;
+    height: 15px;
+    fill: theme.$white-color;
+
+    &.mIconWithText {
+        margin-right: 10px;
+    }
+}

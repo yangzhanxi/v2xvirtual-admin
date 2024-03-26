@@ -1,0 +1,93 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended",
+        "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": ["react", "import", "prettier", "jest-dom", "testing-library"],
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true,
+                "project": "./tsconfig.json"
+            }
+        }
+    },
+    "rules": {
+        "prettier/prettier": 2,
+
+        "no-useless-concat": 2,
+        "prefer-template": 2,
+        "no-negated-condition": 2,
+
+        "@typescript-eslint/ban-ts-comment": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/no-unused-vars": [2, {"argsIgnorePattern": "_", "varsIgnorePattern": "_"}],
+        "@typescript-eslint/no-explicit-any": 0,
+
+        // eslint-plugin-import related rules
+        "import/default": 2,
+        "import/export": 2,
+        "import/newline-after-import": [
+            2,
+            {
+                "count": 1
+            }
+        ],
+        "import/no-absolute-path": 2,
+        "import/no-duplicates": 2,
+        "import/no-mutable-exports": 2,
+        "import/no-unresolved": 2,
+        "import/order": [
+            2,
+            {
+                "groups": ["builtin", "external", "internal", "parent"],
+                "newlines-between": "always"
+            }
+        ],
+
+        // eslint-plugin-react
+        "react/display-name": 0,
+        "react/prop-types": 0,
+        "react-hooks/exhaustive-deps": 2,
+
+        "sort-imports": [
+            "warn",
+            {
+                "ignoreCase": false,
+                "ignoreDeclarationSort": false,
+                "ignoreMemberSort": false,
+                "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+                "allowSeparatedGroups": true
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["*.js"],
+            "rules": {
+                "@typescript-eslint/no-var-requires": 0
+            }
+        }
+    ]
+}

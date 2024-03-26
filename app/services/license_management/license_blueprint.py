@@ -1,8 +1,8 @@
 import logging
 
-from flask import Blueprint
+from flask import Blueprint, session
 from flask_jwt_extended import jwt_required
-from flask_security import login_required, roles_accepted
+from flask_security import roles_accepted
 
 from const import ADMIN_ROLE, APP_LOGGER
 from services.license_management.v2x_license import LicenseFile
@@ -14,12 +14,12 @@ lic = Blueprint("license", __name__)
 
 @lic.get("/licenses")
 @jwt_required()
-@login_required
 @roles_accepted(ADMIN_ROLE)
 def get_licenses():
     """
     GET licenses view.
     """
+    session.permanent = True
     return _get_licenses()
 
 

@@ -1,0 +1,15 @@
+@use 'styles/theme.scss';
+
+.noLicenseContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: theme.$error-color;
+}
+
+.loadingContainer {
+    position: relative;
+    height: 100vh;
+    color: theme.$main-color;
+}

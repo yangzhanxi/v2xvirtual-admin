@@ -1,7 +1,9 @@
 import os
 import secrets
+from datetime import timedelta
 
 from flask import Flask, helpers
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_security import Security
 
@@ -21,7 +23,11 @@ def create_app() -> Flask:
     # Logging configuration
     config_log(helpers.get_debug_flag())
 
-    app = Flask(__name__)
+    app = Flask(__name__,
+                static_folder="./dist/",
+                template_folder="./dist/")
+
+    CORS(app)
 
     # App configuration
     app.config["SECRET_KEY"] = os.environ.get(
@@ -30,10 +36,11 @@ def create_app() -> Flask:
     app.config["SECURITY_PASSWORD_SALT"] = os.environ.get(
         "SECURITY_PASSWORD_SALT", SECURITY_PASSWORD_SALT)
 
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=2)
     app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe()
+    app.config["PERMANENT_SESSION_LIFETIME"] = 86400
 
     user_datastore = init_datastore()
-
     setattr(app, "security", Security(app, user_datastore))
 
     create_admin_role_and_user(app)

@@ -1,0 +1,48 @@
+// $blue-chill-2-color: #f4fbff;
+// $blue-color: #0076c5;
+// $curious-blue-2-color: #6fbcde;
+// $curious-blue-3-color: #c2e2f5;
+// $iris-blue-color: #00b0cb;
+// $maroon-flush: #d22154;
+// $onahau-1-color: #c4e3f3;
+// $silver-1-color: #8a8a8a;
+// $slightly-blue-color: #e5f6ff;
+// $error-color3: #f3dcdc;
+
+$black-color: #000;
+$dark-bg-gray-color: #818c93;
+$dark-gray-color: #333;
+$disabled-color: #eaeaea;
+$disabled-darkened-color: #b2b2b2;
+$error-color: #d02538;
+$error-darkened-color: #923;
+$error-lightened-color: #f5c8cc;
+$gray-color: #555;
+$light-gray-color: #ccc;
+$lighter-gray-color: #f2f2f2;
+$lightest-gray-color: #f8f8f8;
+$main-color: #0290d7;
+$main-darkened-color: #0c5fa2;
+$main-lightened-color: #c5e3f2;
+$success-color: #009344;
+$success-lightened-color: #cae9d9;
+$warning-color: #fcae05;
+$warning-darkened-color: #e09c09;
+$warning-lightened-color: #f7f6bd;
+$white-color: #fff;
+
+$default-text-color: $dark-gray-color;
+
+$default-text-font-family: 'Open Sans', helvetica, sans-serif;
+$default-text-font-size: 12px;
+$default-text-font-weight: 400;
+
+$semi-bold-text-font-weight: 500;
+$bold-text-font-weight: 600;
+$default-text-font-style: normal;
+
+/* stylelint-disable */
+:export {
+    disabledDarkenedColor: $disabled-darkened-color;
+}
+/* stylelint-enable */
