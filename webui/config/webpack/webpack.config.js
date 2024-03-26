@@ -134,6 +134,7 @@ module.exports = function config(env, options) {
             }),
             new HtmlWebpackPlugin({
                 template: './src/index.html',
+                favicon: './src/favicon.png',
             }),
             new MiniCssExtractPlugin({
                 filename: '[name].[contenthash:8].css',
