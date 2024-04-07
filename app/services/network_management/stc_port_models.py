@@ -7,7 +7,7 @@ class StcPort(object):
                  name: str,
                  handle: str,
                  link_status: str,
-                 auto_negotiation: bool,
+                 auto_negotiation: str,
                  auto_negotiation_role: str,
                  duplex_mode: str,
                  line_speed: str):

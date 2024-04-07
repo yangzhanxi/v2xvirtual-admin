@@ -5,10 +5,8 @@ from typing import List, Optional
 
 import errors.network_errors as if_errors
 from const import APP_LOGGER, PN_PORT_MAPPING
-from services.network_management.mockData import NETWORK_INTERFACES
 from services.network_management.net_if_utils import (is_valid_ipv4,
                                                       netmask_to_ipv4_addr)
-
 
 LOG = logging.getLogger(APP_LOGGER)
 
@@ -56,12 +54,14 @@ class Ipv4NetworkInterface(object):
 
     @property
     def netmask(self) -> str:
-        msg = ""
+        has_exception = False
         try:
             netmask = int(self.__netmask)
         except Exception:
+            has_exception = True
+
+        if has_exception or netmask not in range(0, 33):
             msg = f"{self.__netmask} is invalid netmask."
-        if msg or netmask not in range(0, 33):
             LOG.exception(msg)
             raise if_errors.GettingNetworkInterfaceError(
                 message=msg)
@@ -86,20 +86,20 @@ def list_network_info() -> str:
     return ret.stdout.decode("utf-8")
 
 
-def list_route_info() -> str:
-    """
-    _summary_
+# def list_route_info() -> str:
+#     """
+#     _summary_
 
-    :raises if_errors.GettingNetworkInterfaceError: _description_
-    """
-    ret = subprocess.run("ip route show", shell=True, capture_output=True)
-    if ret.stderr:
-        LOG.exception(ret.stderr.decode("utf-8"))
-        raise if_errors.GettingNetworkInterfaceError(
-            message=ret.stderr.decode("utf-8")
-        )
+#     :raises if_errors.GettingNetworkInterfaceError: _description_
+#     """
+#     ret = subprocess.run("ip route show", shell=True, capture_output=True)
+#     if ret.stderr:
+#         LOG.exception(ret.stderr.decode("utf-8"))
+#         raise if_errors.GettingNetworkInterfaceError(
+#             message=ret.stderr.decode("utf-8")
+#         )
 
-    return ret.stdout.decode("utf-8")
+#     return ret.stdout.decode("utf-8")
 
 
 def get_stc_network_interfaces(net_info: str) -> List[Ipv4NetworkInterface]:
@@ -110,7 +110,6 @@ def get_stc_network_interfaces(net_info: str) -> List[Ipv4NetworkInterface]:
     """
     network_interfaces: List[Ipv4NetworkInterface] = []
 
-    # net_if_list = NETWORK_INTERFACES.replace("\n ", " ").split("\n")
     net_if_list = net_info.replace("\n ", " ").split("\n")
     for network_interface in net_if_list:
         net_interface = get_stc_network_interface(network_interface)
@@ -128,11 +127,12 @@ def get_stc_network_interface(net_if: str) -> Optional[Ipv4NetworkInterface]:
     """
     slot_port = SLOT_PORT_REGEXP.search(net_if)
     if slot_port is None:
-        return
+        return None
 
     inet = IPV4_WITH_NETMASK_REGEXP.search(net_if)
     if inet is None:
-        return
+        return None
+
     ipv4_addr, netmask = inet.group(0).replace("inet ", "").split("/")
 
     return Ipv4NetworkInterface(slot_port.group(0), ipv4_addr, "", netmask)
