@@ -4,7 +4,7 @@ from typing import Dict, List
 from stcrestclient import stchttp
 
 from const import APP_LOGGER, STC_SESSION_PREFIX, STC_SESSION_SUFFIX
-from errors.stc_errors import StcPortError
+from errors import stc_errors
 from services.network_management.stc_port_models import StcPort
 
 LOG = logging.getLogger(APP_LOGGER)
@@ -12,9 +12,21 @@ LOG = logging.getLogger(APP_LOGGER)
 
 def list_sessions(stc: stchttp.StcHttp) -> List[str]:
     """
-    _summary_
+    List STC sessions.
+
+    :param stc: STC rest client instance.
+    :raises stc_errors.StcSessionError: Failed to get STC session(s).
+    :return: A list of STC sessions.
     """
-    stc_sessions = stc.sessions()
+    try:
+        stc_sessions = stc.sessions()
+        LOG.debug(f"STC sessions: {stc_sessions}")
+    except Exception as err:
+        msg = "Failed to get STC session(s)."
+        LOG.exception(f"{msg} {err}")
+        raise stc_errors.StcSessionError(
+            message=msg,
+            error_details=str(err))
 
     return stc_sessions
 
@@ -23,22 +35,39 @@ def join_session(stc: stchttp.StcHttp, session_name: str) -> None:
     """
     _summary_
 
-    :param stc: _description_
-    :param session_name: _description_
+    :param stc: STC rest client instance.
+    :param session_name: The name of STC session.
     """
-    stc.join_session(session_name)
+    try:
+        stc.join_session(session_name)
+        LOG.debug(f"Joined session {session_name}")
+    except Exception as err:
+        msg = f"Failed to join session {session_name}."
+        LOG.exception(f"{msg} {err}")
+        raise stc_errors.StcSessionError(
+            message=msg,
+            error_details=str(err))
 
 
 def list_ports(stc: stchttp.StcHttp) -> List[str]:
     """
-    _summary_
+    List STC ports.
 
-    :param stc: _description_
-    :return: _description_
+    :param stc: STC rest client instance.
+    :return: A list of STC port handles.
     """
-    ret = stc.get("project1", "children-port")
-    if isinstance(ret, str):
-        return [ret]
+    try:
+        ret = stc.get("project1", "children-port")
+        LOG.debug(f"STC ports: {ret}")
+
+        if isinstance(ret, str):
+            return [ret]
+    except Exception as err:
+        msg = "Failed to list STC ports."
+        LOG.exception(f"{msg} {err}")
+        raise stc_errors.StcPortError(
+            message=msg,
+            error_details=str(err))
 
     return ret
 
@@ -46,49 +75,71 @@ def list_ports(stc: stchttp.StcHttp) -> List[str]:
 def get_port_attributes(stc: stchttp.StcHttp,
                         port_handle: str) -> Dict[str, str]:
     """
-    _summary_
+    Gets attributes for specifiec STC port.
 
-    :param stc: _description_
-    :param port_handle: _description_
+    :param stc: STC rest client instance.
+    :param port_handle: STC port handle.
+    :return: Dictionary contains STC port attributes.
     """
-    return stc.get(port_handle)
+    try:
+        ret = stc.get(port_handle)
+        LOG.debug(f"Port handle: {port_handle}\n{ret}")
+    except Exception as err:
+        msg = "Failed to get port {port_handle}."
+        LOG.exception(f"{msg} {err}")
+        raise stc_errors.StcPortError(
+            message=msg,
+            error_details=str(err))
+    return ret
 
 
 def get_phy_info(stc: stchttp.StcHttp,
                  phy_handle: str) -> Dict[str, str]:
     """
-    _summary_
+    Gets phy info by phy handle.
 
-    :param stc: _description_
-    :param phy_info: _description_
+    :param stc: STC rest client instance.
+    :param phy_info: STC phy information.
+    :return: Dictionary contains STC phy attributes.
     """
-    phy_info = stc.get(phy_handle)
+    try:
+        phy_info = stc.get(phy_handle)
+        LOG.debug(f"Phy handle: {phy_handle}\n{phy_info}")
+    except Exception as err:
+        msg = "Failed to get active phy: {phy_handle}."
+        LOG.exception(f"{msg} {err}")
+        raise stc_errors.StcPhyError(
+            message=msg,
+            error_details=str(err))
 
     return phy_info
 
 
 def get_active_phy(port_info: dict) -> str:
     """
-    _summary_
+    Gets active phy for the specified port.
 
-    :param port_info: _description_
+    :param port_info: Dictionary contanis STC port attributs.
+    :return: STC phy handle.
     """
-    active_phys = port_info.get("activephy-Targets")
-    supported_phys = port_info.get("SupportedPhys")
+    active_phy = port_info.get("activephy-Targets", "")
+    supported_phys = port_info.get("SupportedPhys", "")
     if supported_phys:
         phys = [phy.replace("_", "").lower()
                 for phy in supported_phys.split("|")]
 
-        if isinstance(active_phys, list):
-            for target in active_phys:
+        if isinstance(active_phy, list):
+            for target in active_phy:
                 for phy in phys:
                     if phy in target:
+                        LOG.debug("Active phy: {target}")
                         return target
 
-        if isinstance(active_phys, str):
+        if isinstance(active_phy, str):
             for phy in phys:
-                if phy in active_phys:
-                    return active_phys
+                if phy in active_phy:
+                    LOG.debug("Active phy: {active_phys}")
+                    return active_phy
 
     return ""
 
@@ -96,10 +147,11 @@ def get_active_phy(port_info: dict) -> str:
 def get_stc_ports(stc: stchttp.StcHttp,
                   stc_sessions: List[str]) -> List[StcPort]:
     """
-    _summary_
+    Gets STC ports.
 
-    :param stc: _description_
-    :param stc_sessions: _description_
+    :param stc: STC rest client instance.
+    :param stc_sessions: A list of STC session names.
+    :return: A list of StcPort objects.
     """
     stc_ports: List[StcPort] = []
 
@@ -114,7 +166,7 @@ def get_stc_ports(stc: stchttp.StcHttp,
                         get_active_phy(port_info)
                     if active_phy:
                         phy_info = get_phy_info(stc, active_phy)
-                if not port_info and not phy_info:
+                if not port_info or not phy_info:
                     continue
                 port_name = session.replace(STC_SESSION_PREFIX, "")\
                     .replace(STC_SESSION_SUFFIX, "")
@@ -134,10 +186,7 @@ def get_stc_ports(stc: stchttp.StcHttp,
                 stc_ports.append(stc_port)
 
     except Exception as err:
-        msg = "Failed to get STC port information"
+        msg = "Failed to get STC ports."
         LOG.exception(f"{msg} {err}")
-        raise StcPortError(
-            message=msg,
-            error_details=str(err))
 
     return stc_ports

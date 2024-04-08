@@ -71,10 +71,11 @@ class Ipv4NetworkInterface(object):
 
 def list_network_info() -> str:
     """
-    _summary_
+    List network interface infromation.
 
-    :raises if_errors.GettingNetworkInterfaceError: _description_
-    :return: _description_
+    :raises if_errors.GettingNetworkInterfaceError: A problem occurred
+    when getting network interface information.
+    :return: Network information.
     """
     ret = subprocess.run("ip address show", shell=True, capture_output=True)
     if ret.stderr:
@@ -86,27 +87,11 @@ def list_network_info() -> str:
     return ret.stdout.decode("utf-8")
 
 
-# def list_route_info() -> str:
-#     """
-#     _summary_
-
-#     :raises if_errors.GettingNetworkInterfaceError: _description_
-#     """
-#     ret = subprocess.run("ip route show", shell=True, capture_output=True)
-#     if ret.stderr:
-#         LOG.exception(ret.stderr.decode("utf-8"))
-#         raise if_errors.GettingNetworkInterfaceError(
-#             message=ret.stderr.decode("utf-8")
-#         )
-
-#     return ret.stdout.decode("utf-8")
-
-
 def get_stc_network_interfaces(net_info: str) -> List[Ipv4NetworkInterface]:
     """
-    _summary_
+    Gets network interface infromation for STC test ports.
 
-    :param net_info: _description_
+    :param net_info: A list of IPv4 network interface objects.
     """
     network_interfaces: List[Ipv4NetworkInterface] = []
 
@@ -121,9 +106,10 @@ def get_stc_network_interfaces(net_info: str) -> List[Ipv4NetworkInterface]:
 
 def get_stc_network_interface(net_if: str) -> Optional[Ipv4NetworkInterface]:
     """
-    _summary_
+    Get IPv4 network interface information for STC test port.
 
-    :param net_if: _description_
+    :param net_if: Network interface informatino.
+    :return: Ipv4NetworkInterface object.
     """
     slot_port = SLOT_PORT_REGEXP.search(net_if)
     if slot_port is None:
@@ -138,16 +124,19 @@ def get_stc_network_interface(net_if: str) -> Optional[Ipv4NetworkInterface]:
     return Ipv4NetworkInterface(slot_port.group(0), ipv4_addr, "", netmask)
 
 
-def get_ifs_by_part_num(part_number: str, net_ifs: List[Ipv4NetworkInterface]):
+def list_ifs_by_part_num(part_number: str,
+                         net_ifs: List[Ipv4NetworkInterface]
+                         ) -> List[Ipv4NetworkInterface]:
     """
-    _summary_
+    List STC test port network interfaces by part num.
 
-    :param part_number: _description_
+    :param part_number: Part number.
+    :param net_ifs: List of Ipv4NetworkInterface objects.
+    :return: The Ipv4NetworkInterface objects of STC test ports.
     """
-    print(part_number)
     stc_net_ifs: List[Ipv4NetworkInterface] = []
     ports = PN_PORT_MAPPING.get(part_number, [])
-    print(ports)
+
     for net_if in net_ifs:
         print(net_if.name)
         if net_if.name in ports:
@@ -156,17 +145,26 @@ def get_ifs_by_part_num(part_number: str, net_ifs: List[Ipv4NetworkInterface]):
     return stc_net_ifs
 
 
-def get_network_interfaces(part_number: str):
+def get_network_interfaces(part_num: str) -> List[Ipv4NetworkInterface]:
+    """
+    Gets STC test port network interfaces.
+
+    :param part_num: STC part num.
+    :raises if_errors.NetworkInfoError: Failed to get network
+    interface information.
+    :return: A list of Ipv4NetworkInterface objects.
+    """
     try:
         net_info = list_network_info()
-        print(net_info)
+        LOG.debug(f"Network interfaces:\n{net_info}")
         stc_net_interfaces = get_stc_network_interfaces(net_info)
-        print(stc_net_interfaces)
-        network_interfaces = get_ifs_by_part_num(
-            part_number, stc_net_interfaces)
-        print(network_interfaces)
+        LOG.debug(f"STC network interfaces:\n{stc_net_interfaces}")
+        network_interfaces = list_ifs_by_part_num(
+            part_num, stc_net_interfaces)
+        LOG.debug(f"STC test port interfaces:\n{network_interfaces}")
+
     except Exception as err:
-        msg = 'Failed to get network interface information'
+        msg = 'Failed to get network interface information.'
         LOG.exception(f"{msg} {err}")
         raise if_errors.NetworkInfoError(
             message=msg,

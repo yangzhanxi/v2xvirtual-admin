@@ -32,7 +32,14 @@ LOG_FILE_NAME = "v2xvirtual-admin.log"
 APP_LOGGER = "app_logger"
 
 STC_SESSION_PN_MAPPING = {
-    ""
+    "TTwb_slot7port1 - ttwb": "SPT-M1",
+    "TTwb_slot7port2 - ttwb": "SPT-M1",
+    "TTwb_slot7port3 - ttwb": "SPT-M1",
+    "TTwb_slot7port4 - ttwb": "SPT-M1",
+    "TTwb_slot1port1 - ttwb": "SPT-C50",
+    "TTwb_slot1port2 - ttwb": "SPT-C50",
+    "TTwb_slot1port3 - ttwb": "SPT-C50",
+    "TTwb_slot1port4 - ttwb": "SPT-C50"
 }
 
 PN_PORT_MAPPING = {

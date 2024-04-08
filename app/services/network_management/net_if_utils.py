@@ -32,7 +32,7 @@ def netmask_to_ipv4_addr(netmask_length: int) -> str:
     Convert the netmask length to IPv4 address.
 
     :param netmask_length: Netmask length. The netmask length (0 - 32).
-    :return: _description_
+    :return: IPv4 address.
     """
 
     subnet_mask = (0xffffffff << (32 - netmask_length)) & 0xffffffff
