@@ -138,7 +138,6 @@ def list_ifs_by_part_num(part_number: str,
     ports = PN_PORT_MAPPING.get(part_number, [])
 
     for net_if in net_ifs:
-        print(net_if.name)
         if net_if.name in ports:
             stc_net_ifs.append(net_if)
 

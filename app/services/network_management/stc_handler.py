@@ -33,10 +33,11 @@ def list_sessions(stc: stchttp.StcHttp) -> List[str]:
 
 def join_session(stc: stchttp.StcHttp, session_name: str) -> None:
     """
-    _summary_
+    Join the STC session.
 
     :param stc: STC rest client instance.
     :param session_name: The name of STC session.
+    :raises stc_errors.StcSessionError: Failed to join STC session.
     """
     try:
         stc.join_session(session_name)
@@ -49,11 +50,34 @@ def join_session(stc: stchttp.StcHttp, session_name: str) -> None:
             error_details=str(err))
 
 
+def get_part_num(stc: stchttp.StcHttp) -> str:
+    """
+    Get STC part num.
+
+    :param stc: STC rest client instance.
+    :raises stc_errors.StcPartNumError: Failed to get part num.
+    :return: STC Part Num.
+    """
+    try:
+        ret = stc.get("System1.PhysicalChassisManager.PhysicalChassis",
+                      "PartNum")
+        LOG.debug(f"Part Num: {ret}")
+    except Exception as err:
+        msg = "Failed to get part num."
+        LOG.exception(f"{msg} {err}")
+        raise stc_errors.StcPartNumError(
+            message=msg,
+            error_details=str(err))
+
+    return ret
+
+
 def list_ports(stc: stchttp.StcHttp) -> List[str]:
     """
     List STC ports.
 
     :param stc: STC rest client instance.
+    :raises stc_errors.StcPortError: Failed to list STC ports.
     :return: A list of STC port handles.
     """
     try:
@@ -62,6 +86,7 @@ def list_ports(stc: stchttp.StcHttp) -> List[str]:
 
         if isinstance(ret, str):
             return [ret]
+
     except Exception as err:
         msg = "Failed to list STC ports."
         LOG.exception(f"{msg} {err}")
@@ -79,6 +104,7 @@ def get_port_attributes(stc: stchttp.StcHttp,
 
     :param stc: STC rest client instance.
     :param port_handle: STC port handle.
+    :raises stc_errors.StcPortError: Failed to get port.
     :return: Dictionary contains STC port attributes.
     """
     try:
@@ -100,6 +126,7 @@ def get_phy_info(stc: stchttp.StcHttp,
 
     :param stc: STC rest client instance.
     :param phy_info: STC phy information.
+    :raises stc_errors.StcPortError: Failed to get active phy.
     :return: Dictionary contains STC phy attributes.
     """
     try:
@@ -132,13 +159,13 @@ def get_active_phy(port_info: dict) -> str:
             for target in active_phy:
                 for phy in phys:
                     if phy in target:
-                        LOG.debug("Active phy: {target}")
+                        LOG.debug(f"Active phy: {target}")
                         return target
 
         if isinstance(active_phy, str):
             for phy in phys:
                 if phy in active_phy:
-                    LOG.debug("Active phy: {active_phys}")
+                    LOG.debug(f"Active phy: {active_phy}")
                     return active_phy
 
     return ""

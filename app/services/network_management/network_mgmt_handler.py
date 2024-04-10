@@ -14,9 +14,9 @@ LOG = logging.getLogger(APP_LOGGER)
 
 def get_part_num_by_session(session: str) -> str:
     """
-    _summary_
+    Gets part num by the name of STC session.
 
-    :param session: _description_
+    :param session: The name of STC session.
     """
     if session in STC_SESSION_PN_MAPPING:
         return STC_SESSION_PN_MAPPING.get(session, "")
@@ -28,11 +28,11 @@ def build_ports_response(net_ifs: List[Ipv4NetworkInterface],
                          stc_ports: List[StcPort]
                          ) -> List[Dict[str, Dict[str, str]]]:
     """
-    _summary_
+    Construct the response of ports request.
 
-    :param net_ifs: _description_
-    :param stc_ports: _description_
-    :return: _description_
+    :param net_ifs: A list of Ipv4NetworkInterface objects.
+    :param stc_ports: A list of StcPort objects.
+    :return: A list of STC network interface information.
     """
     ports = []
     for net_if in net_ifs:
@@ -85,23 +85,56 @@ def build_ports_response(net_ifs: List[Ipv4NetworkInterface],
     return ports
 
 
-def get_test_ports() -> List[Dict[str, Dict[str, str]]]:
+def ports_handler() -> List[Dict[str, Dict[str, str]]]:
     """
-    _summary_
+    This method serves as the handler for STC ports,
+    responsible for processing port requests.
 
-    :return: _description_
+    :return: Response of ports request.
     """
-    stc_obj = stchttp.StcHttp(STC_SERVER, port=STC_SERVER_PORT)
-    sessions = stc_handler.list_sessions(stc_obj)
+    try:
+        stc_obj = stchttp.StcHttp(STC_SERVER, port=STC_SERVER_PORT)
+        sessions = stc_handler.list_sessions(stc_obj)
+        if not sessions:
+            return []
 
-    if not sessions:
-        return []
+        stc_ports = stc_handler.get_stc_ports(stc_obj, sessions)
+        part_num = stc_handler.get_part_num(stc_obj)
+        net_ifs = net_if_models.get_network_interfaces(part_num)
 
-    part_num = get_part_num_by_session(sessions[0])
-    stc_ports = stc_handler.get_stc_ports(stc_obj, sessions)
-    net_ifs = net_if_models.get_network_interfaces(part_num)
+        if stc_ports and net_ifs:
+            return build_ports_response(net_ifs, stc_ports)
 
-    if stc_ports and net_ifs:
-        return build_ports_response(net_ifs, stc_ports)
+    except Exception as err:
+        msg = str(err)
+        if hasattr(err, "error_info"):
+            if err.error_info != msg:
+                msg = f"{msg} {err.error_info}"
+        LOG.exception(msg)
 
     return []
+
+
+def part_num_handler() -> Dict[str, str]:
+    """
+    This method serves as the handler for STC part num,
+    responsible for processing part num requests.
+
+    :return: Response of part num.
+    """
+    try:
+        stc_obj = stchttp.StcHttp(STC_SERVER, port=STC_SERVER_PORT)
+        sessions = stc_handler.list_sessions(stc_obj)
+        if not sessions:
+            return {"part_num": ""}
+
+        stc_handler.join_session(stc_obj, sessions[0])
+        part_num = stc_handler.get_part_num(stc_obj)
+
+    except Exception as err:
+        msg = str(err)
+        if hasattr(err, "error_info"):
+            msg = f"{msg} {err.error_info}"
+        LOG.exception(msg)
+
+    return {"part_num": part_num}

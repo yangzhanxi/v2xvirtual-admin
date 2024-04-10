@@ -50,6 +50,32 @@ def test_join_session(log_mock):
 
 
 @patch(f"{TC_MODULE}.LOG")
+def test_get_part_num(log_mock):
+    # Mock
+    stc_mock = MagicMock()
+    stc_mock.get.return_value = "ut_pn"
+
+    # Test pass
+    assert tc_module.get_part_num(stc_mock) == "ut_pn"
+    stc_mock.get.assert_called_once_with(
+        "System1.PhysicalChassisManager.PhysicalChassis",
+        "PartNum")
+    log_mock.debug.assert_called_once_with(
+        "Part Num: ut_pn")
+
+    # Test raises Exception
+    stc_mock.get.side_effect = Exception("ut_error")
+
+    try:
+        tc_module.get_part_num(stc_mock)
+    except tc_module.stc_errors.StcPartNumError as err:
+        assert str(err) == "Failed to get part num."
+        assert err.error_info == "ut_error"
+        assert log_mock.exception(
+            "Failed to get part num. ut_error")
+
+
+@patch(f"{TC_MODULE}.LOG")
 def test_list_ports(log_mock):
     # Mock
     stc_mock = MagicMock()
@@ -123,7 +149,8 @@ def test_get_phy_info(log_mock):
             "Failed to get active phy: ut_handle. ut_error")
 
 
-def test_get_active_phy():
+@patch(f"{TC_MODULE}.LOG")
+def test_get_active_phy(log_mock):
     # Mock
     port_mock = {
         "activephy-Targets": "ethernetcopper1",
@@ -132,13 +159,20 @@ def test_get_active_phy():
 
     # Test pass when activephy targets is string
     assert tc_module.get_active_phy(port_mock) == "ethernetcopper1"
+    log_mock.debug.assert_called_once_with(
+        "Active phy: ethernetcopper1"
+    )
 
     # Test pass when activephy target is a list
+    log_mock.reset_mock()
     port_mock = {
         "activephy-Targets": ["ut_phy1", "ethernetfiber1"],
         "SupportedPhys": "ETHERNET_COPPER|ETHERNET_FIBER"
     }
     assert tc_module.get_active_phy(port_mock) == "ethernetfiber1"
+    log_mock.debug.assert_called_once_with(
+        "Active phy: ethernetfiber1"
+    )
 
     # Test returns empty string
     port_mock = {
