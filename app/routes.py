@@ -2,6 +2,7 @@ from flask import Flask
 
 from services.authentication.auth_blueprint import auth as auth_bp
 from services.license_management.license_blueprint import lic as lic_bp
+from services.network_management.network_blueprint import net as net_bp
 
 
 def send_index(app: Flask):
@@ -22,6 +23,9 @@ def generate_routes(app: Flask) -> None:
 
     # Register license resource.
     app.register_blueprint(lic_bp, url_prefix="/api")
+
+    # Register license resource.
+    app.register_blueprint(net_bp, url_prefix="/api")
 
     @app.route("/<path:filename>")
     def server_static(filename):

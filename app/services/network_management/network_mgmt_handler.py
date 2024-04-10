@@ -122,14 +122,17 @@ def part_num_handler() -> Dict[str, str]:
 
     :return: Response of part num.
     """
+    def_ret = {"part_num": ""}
     try:
         stc_obj = stchttp.StcHttp(STC_SERVER, port=STC_SERVER_PORT)
         sessions = stc_handler.list_sessions(stc_obj)
         if not sessions:
-            return {"part_num": ""}
+            return def_ret
 
         stc_handler.join_session(stc_obj, sessions[0])
         part_num = stc_handler.get_part_num(stc_obj)
+
+        return {"part_num": part_num}
 
     except Exception as err:
         msg = str(err)
@@ -137,4 +140,4 @@ def part_num_handler() -> Dict[str, str]:
             msg = f"{msg} {err.error_info}"
         LOG.exception(msg)
 
-    return {"part_num": part_num}
+    return def_ret

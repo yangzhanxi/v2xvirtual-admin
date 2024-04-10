@@ -5,13 +5,15 @@ from flask_jwt_extended import jwt_required
 from flask_security import roles_accepted
 
 from const import ADMIN_ROLE, APP_LOGGER
+from services.network_management.network_mgmt_handler import (part_num_handler,
+                                                              ports_handler)
 
 LOG = logging.getLogger(APP_LOGGER)
 
-lic = Blueprint("network", __name__)
+net = Blueprint("network", __name__)
 
 
-@lic.get("/ports")
+@net.get("/ports")
 @jwt_required()
 @roles_accepted(ADMIN_ROLE)
 def get_licenses():
@@ -19,20 +21,17 @@ def get_licenses():
     GET ports view.
     """
     session.permanent = True
-    return _get_ports()
+
+    return ports_handler()
 
 
-def _get_ports():
+@net.get("/partnum")
+@jwt_required()
+@roles_accepted(ADMIN_ROLE)
+def get_part_num():
     """
-    GET licenses handler
+    GET part num view.
     """
-    # Init License File object.
-    # license_file = LicenseFile()
-    # try:
-    #     license_file.read()
-    #     license_file.parse()
+    session.permanent = True
 
-    # except Exception as err:
-    #     LOG.info(f"No licenses found. {err}")
-    pass
-    # return [lic.to_dict() for lic in license_file.licenses]
+    return part_num_handler()
