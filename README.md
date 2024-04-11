@@ -30,8 +30,8 @@ python -m virtualenv ./venv
 ```
 3. Install dependencies.
 ```
-python -m install -r flask_requirements.txt # Install flask dependencies
-python -m install -r test_requirements # Install unit test dependencies
+python -m pip install -r requirements.txt # Install flask dependencies
+python -m pip install -r test_requirements # Install unit test dependencies
 ```
 
 #### Run Unit Tests.

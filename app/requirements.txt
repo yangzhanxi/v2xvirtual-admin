@@ -1,4 +1,7 @@
+bcrypt==4.1.2
 blinker==1.7.0
+certifi==2024.2.2
+charset-normalizer==3.3.2
 click==8.1.7
 dnspython==2.6.1
 email_validator==2.1.1
@@ -18,5 +21,8 @@ mongoengine==0.28.1
 passlib==1.7.4
 PyJWT==2.8.0
 pymongo==4.6.2
+requests==2.31.0
+stcrestclient==1.9.1
+urllib3==2.2.1
 Werkzeug==3.0.1
 WTForms==3.1.2
