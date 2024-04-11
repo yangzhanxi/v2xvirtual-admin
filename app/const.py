@@ -23,9 +23,42 @@ PASSWORD_KEY = "password"
 # Dev license file info
 DEV_LICENSE_FOLDER = "license_file"
 LICENSE_FILE_NAME = "license.lic"
+# LICENSE_FOLDER = r"/mnt/spirent/ttwb/flexnet"
 
 # Log file dir
 LOG_FILE_DIR = "log"
 LOG_FILE_NAME = "v2xvirtual-admin.log"
 
 APP_LOGGER = "app_logger"
+
+STC_SESSION_PN_MAPPING = {
+    "TTwb_slot7port1 - ttwb": "SPT-M1",
+    "TTwb_slot7port2 - ttwb": "SPT-M1",
+    "TTwb_slot7port3 - ttwb": "SPT-M1",
+    "TTwb_slot7port4 - ttwb": "SPT-M1",
+    "TTwb_slot1port1 - ttwb": "SPT-C50",
+    "TTwb_slot1port2 - ttwb": "SPT-C50",
+    "TTwb_slot1port3 - ttwb": "SPT-C50",
+    "TTwb_slot1port4 - ttwb": "SPT-C50"
+}
+
+PN_PORT_MAPPING = {
+    "SPT-M1": [
+        "slot7port1",
+        "slot7port2",
+        "slot7port3",
+        "slot7port4"
+    ],
+    "SPT-C50": [
+        "slot1port1",
+        "slot1port2",
+        "slot1port3",
+        "slot1port4"
+    ]
+}
+
+STC_SERVER = "127.0.0.1"
+STC_SERVER_PORT = 8888
+
+STC_SESSION_PREFIX = "TTwb_"
+STC_SESSION_SUFFIX = " - ttwb"
