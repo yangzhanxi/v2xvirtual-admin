@@ -1,5 +1,7 @@
 attrs==23.2.0
 blinker==1.7.0
+certifi==2024.2.2
+charset-normalizer==3.3.2
 click==8.1.7
 coverage==7.4.3
 dnspython==2.6.1
@@ -38,9 +40,12 @@ pytest-flakes==4.0.5
 pytest-isort==3.1.0
 pytest-mypy==0.10.3
 pytest-pycodestyle==2.3.1
+requests==2.31.0
+stcrestclient==1.9.1
 tomli==2.0.1
 types-Flask-Cors==4.0.0.20240106
 types-mock==5.1.0.20240106
 typing_extensions==4.10.0
+urllib3==2.2.1
 Werkzeug==3.0.1
 WTForms==3.1.2
