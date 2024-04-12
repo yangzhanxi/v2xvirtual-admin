@@ -6,10 +6,7 @@ import {languageLoaded} from 'domain/environment/environmentSlice';
 
 import common from './en/common.json';
 import components from './en/components.json';
-// import modals from './en/modals.json';
-// import notifications from './en/notifications.json';
 import pages from './en/pages.json';
-// import validators from './en/validators.json';
 
 export const resources = {
     en: {

@@ -1,3 +1,4 @@
+import BidirectionalIcon from './svg/bidirectional.svg';
 import CollapsedIcon from './svg/collapsed.svg';
 import ExpandedIcon from './svg/expanded.svg';
 import FileIcon from './svg/file.svg';
@@ -11,6 +12,7 @@ import UserIcon from './svg/user.svg';
 import WarningIcon from './svg/triangle-warning.svg';
 
 export {
+    BidirectionalIcon,
     CollapsedIcon,
     ExpandedIcon,
     FileIcon,

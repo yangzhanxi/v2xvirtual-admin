@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {SpinnerOverlay, Table, TableColumn, TableRow} from 'orion-rwc';
+import {Table, TableColumn, TableRow} from 'orion-rwc';
 import {useTranslation} from 'react-i18next';
 
 import {LicnesesControllerService} from 'api/services/LicensesService';
+import Spinner from 'components/spinner/Spinner';
 import {useAsync} from 'utils/hooks';
 
 import {LicenseRowItem, createLicenseRowItem, tableSortOption} from './models';
@@ -129,17 +130,12 @@ const LicenseTable: React.FC = () => {
     };
 
     const renderSpinner = () => {
-        return (
-            <div className={styles.loadingContainer}>
-                <SpinnerOverlay text={'Loading...'} />
-            </div>
-        );
+        return <Spinner />;
     };
 
     const renderNoLicense = () => {
         return (
             <div className={styles.noLicenseContainer}>
-                <div></div>
                 <div className={styles.noLicenseContext}>
                     <span> No licenses found.</span>
                 </div>

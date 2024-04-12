@@ -1,0 +1,20 @@
+@use 'styles/theme.scss';
+
+.root {
+    border-radius: 50%;
+    background: theme.$ports-status-down;
+    width: 14px;
+    height: 14px;
+
+    &.mRootError {
+        background: theme.$ports-status-error;
+    }
+
+    &.mRootDown {
+        background: theme.$ports-status-down;
+    }
+
+    &.mRootUp {
+        background: theme.$ports-status-up;
+    }
+}

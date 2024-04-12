@@ -13,9 +13,13 @@
     font-style: theme.$default-text-font-style;
     padding-left: 15px;
     justify-content: center;
+
+    &.mTitle {
+        padding-left: 30px;
+    }
 }
 
-.address {
+.content {
     font-size: medium;
     font-style: theme.$default-text-font-style;
     padding-left: 10px;

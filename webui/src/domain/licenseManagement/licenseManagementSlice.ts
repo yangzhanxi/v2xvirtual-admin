@@ -27,7 +27,6 @@ const licenseManagementSlice = createSlice({
     },
 });
 
-// export const systemConfigCheckRequested = createAction('SYSTEM_CONFIG_CHECK_REQUESTED');
 export const getLicensesRequested = createAction('GET_LICENSES_REQUESTED');
 
 export const {updateLicenses, isLoading} = licenseManagementSlice.actions;

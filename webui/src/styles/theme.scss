@@ -41,6 +41,10 @@ $semi-bold-text-font-weight: 500;
 $bold-text-font-weight: 600;
 $default-text-font-style: normal;
 
+$ports-status-error: $error-color;
+$ports-status-down: $disabled-darkened-color;
+$ports-status-up: $success-color;
+
 /* stylelint-disable */
 :export {
     disabledDarkenedColor: $disabled-darkened-color;
