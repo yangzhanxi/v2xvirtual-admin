@@ -39,6 +39,10 @@ def generate_routes(app: Flask) -> None:
     def licenses():
         return send_index(app)
 
+    @app.get("/network")
+    def network():
+        return send_index(app)
+
     @app.get("/auth")
     def auth():
         return send_index(app)

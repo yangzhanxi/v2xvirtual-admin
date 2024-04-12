@@ -51,6 +51,10 @@ def build_ports_response(net_ifs: List[Ipv4NetworkInterface],
                         "label": "Link Status",
                         "value": stc_port.link_status
                     },
+                    "line_speed": {
+                        "label": "Link Speed",
+                        "value": stc_port.line_speed
+                    },
                     "auto_negotiation": {
                         "label": "Auto-Negotiation",
                         "value": stc_port.auto_negotiation
