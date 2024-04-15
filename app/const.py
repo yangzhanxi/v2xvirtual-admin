@@ -4,8 +4,12 @@ DB_HOST = "mongodb://localhost"
 DB_PORT = 27017
 
 # The root user of MongoDB.
-ROOT = "root"
-ROOT_PASSWORD = "example"
+DEV_ROOT = "root"
+DEV_ROOT_PASSWORD = "example"
+
+# Product Env
+ROOT = ""
+ROOT_PASSWORD = ""
 
 # Administrator information of V2x Virtual Admin app
 ADMIN_USER = "admin"
@@ -23,7 +27,9 @@ PASSWORD_KEY = "password"
 # Dev license file info
 DEV_LICENSE_FOLDER = "license_file"
 LICENSE_FILE_NAME = "license.lic"
-# LICENSE_FOLDER = r"/mnt/spirent/ttwb/flexnet"
+
+# Product license file folder
+LICENSE_FOLDER = r"/mnt/spirent/ttwb/flexnet"
 
 # Log file dir
 LOG_FILE_DIR = "log"
