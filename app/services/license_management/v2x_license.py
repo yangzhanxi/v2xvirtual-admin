@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import List, Optional
 
 import errors.license_errors as lic_errors
-from const import APP_LOGGER, LICENSE_FOLDER, LICENSE_FILE_NAME
+from const import APP_LOGGER, LICENSE_FILE_NAME, LICENSE_FOLDER
 
 LOG = logging.getLogger(APP_LOGGER)
 
@@ -13,6 +13,8 @@ LOG = logging.getLogger(APP_LOGGER)
 #     os.path.dirname(__file__), DEV_LICENSE_FOLDER)
 
 # LICENSE_PATH = os.environ.get("LICENSE_PATH", DEV_LICENSE_PATH)
+
+LICENSE_PATH = LICENSE_FOLDER
 
 INCREMENT_WITH_WHITESPACE = "INCREMENT "
 NAME_REGEXP = re.compile(r"[\w-]*")
@@ -64,7 +66,7 @@ class LicenseFile:
     """
 
     def __init__(self):
-        self.file_path: str = os.path.join(LICENSE_FOLDER, LICENSE_FILE_NAME)
+        self.file_path: str = os.path.join(LICENSE_PATH, LICENSE_FILE_NAME)
         self.content: Optional[str] = None
         self.licenses: List[V2xLicense] = []
 

@@ -67,6 +67,8 @@ def test_build_ports_response():
                 "label": "Port Name", "value": "ut_s1p1"},
             "port_handel": {
                 "label": "Port Handel", "value": "ut_handle1"},
+            "line_speed": {
+                "label": "Line Speed", "value": "ut_speed1"},
             "link_status": {
                 "label": "Link Status", "value": "ut_status1"},
             "auto_negotiation": {
@@ -89,6 +91,8 @@ def test_build_ports_response():
                 "label": "Port Name", "value": "ut_s1p2"},
             "port_handel": {
                 "label": "Port Handel", "value": "ut_handle2"},
+            "line_speed": {
+                "label": "Line Speed", "value": "ut_speed2"},
             "link_status": {
                 "label": "Link Status", "value": "ut_status2"},
             "auto_negotiation": {
