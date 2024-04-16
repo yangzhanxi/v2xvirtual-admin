@@ -97,7 +97,7 @@ def test_create_admin_user(hash_mock,
         username="admin",
         password="ut_hash",
         roles=["admin"])
-    hash_mock.assert_called_once_with("password")
+    hash_mock.assert_called_once_with("aingee1T")
     log_mock.assert_not_called()
 
     # Test passes when user exists
