@@ -191,9 +191,13 @@ def get_stc_ports(stc: stchttp.StcHttp,
                 if port_info:
                     active_phy = \
                         get_active_phy(port_info)
-                    if active_phy:
+                    if not active_phy:
+                        phy_info = {
+                            "LinkStatus": "DOWN",
+                        }
+                    else:
                         phy_info = get_phy_info(stc, active_phy)
-                if not port_info or not phy_info:
+                if not port_info:
                     continue
                 port_name = session.replace(STC_SESSION_PREFIX, "")\
                     .replace(STC_SESSION_SUFFIX, "")
