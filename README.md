@@ -15,6 +15,14 @@ This project includes License Management and Network Management for V2X Virtual.
 git clone git@github.com:yangzhanxi/v2xvirtual-admin.git v2xvirtual-admin
 cd v2xvirtual-admin/app
 ```
+#### Dependencies
+* Flask
+* Flask-Cors
+* Flask-JWT-Extended
+* Flask-Login
+* Flask-Security-Too
+* stcrestclient
+  
 #### Install Dependencies (Ubuntu Linux)
 1. Ensure you have a python3.10 installed or install it into your system, using pyenv.
 ```
@@ -64,3 +72,39 @@ To start development environment run. (To pass API url to backend)
 npm start -- --env=api='http://localhost:59999/api'
 ```
 Open `http://localhost:8080` on browser.
+
+### Build webui
+Go to v2xvirtual-admin/webui
+```
+nvm use
+npm run build
+rm -rf ../app/dist
+cp -r ./dist ./app/dist
+```
+
+## APP Deployment
+Go to v2xvirtual-admin
+```
+tar xvf app.tar ./app
+scp app.tar {username}@{ipaddress}/mnt/spirent
+
+#### log in to the remote host ###
+cd /mnt/spiernt
+tar xvf app.tar
+mv app ./v2x-admin
+cp v2x-admin/v2xadmin.sh /etc/init.d/v2xadmin
+ln -s /etc/init.d/v2xadmin /etc/rc3.d/S99v2xadmin
+update-rc.d v2xadmin defaults
+```
+### Start Service
+```
+service v2xadmin start
+```
+### Stop service
+```
+service v2xadmin stop
+```
+### Restart service
+```
+service v2xadmin 
+```
