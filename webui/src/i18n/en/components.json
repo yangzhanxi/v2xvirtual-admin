@@ -1,5 +1,6 @@
 {
     "v2xAddress": "V2X Virtual Address",
+    "partNum": "Part Num",
     "userInfo": {
         "logout": "Logout"
     },

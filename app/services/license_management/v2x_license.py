@@ -5,15 +5,16 @@ from datetime import datetime
 from typing import List, Optional
 
 import errors.license_errors as lic_errors
-from const import APP_LOGGER, DEV_LICENSE_FOLDER, LICENSE_FILE_NAME
+from const import APP_LOGGER, LICENSE_FILE_NAME, LICENSE_FOLDER
 
 LOG = logging.getLogger(APP_LOGGER)
 
-# FIXME: Use the license.lic path
-DEV_LICENSE_PATH = os.path.join(
-    os.path.dirname(__file__), DEV_LICENSE_FOLDER)
+# DEV_LICENSE_PATH = os.path.join(
+#     os.path.dirname(__file__), DEV_LICENSE_FOLDER)
 
-LICENSE_PATH = os.environ.get("LICENSE_PATH", DEV_LICENSE_PATH)
+# LICENSE_PATH = os.environ.get("LICENSE_PATH", DEV_LICENSE_PATH)
+
+LICENSE_PATH = LICENSE_FOLDER
 
 INCREMENT_WITH_WHITESPACE = "INCREMENT "
 NAME_REGEXP = re.compile(r"[\w-]*")

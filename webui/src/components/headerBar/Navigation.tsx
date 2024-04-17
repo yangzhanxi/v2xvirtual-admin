@@ -2,7 +2,7 @@ import {Link, useRouteMatch} from 'react-router-dom';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 
-import {FilesIcon, HeaderLogo} from 'assets/icons';
+import {BidirectionalIcon, FilesIcon, HeaderLogo} from 'assets/icons';
 import UserInfo from 'components/userInfo/UserInfo';
 import routePaths from 'routePaths';
 
@@ -13,6 +13,7 @@ const Navigator: React.FC = () => {
     const {t} = useTranslation('components');
     const isDashboardPage = !!useRouteMatch({path: routePaths.INDEX, exact: true});
     const isLicensesPage = !!useRouteMatch({path: routePaths.LICENSES, exact: true});
+    const isNetworkPage = !!useRouteMatch({path: routePaths.NETWORK, exact: true});
 
     const leftItems = (
         <HeaderBarItems>
@@ -26,6 +27,9 @@ const Navigator: React.FC = () => {
                     data-cy="dashboard"
                     isActive={isLicensesPage || isDashboardPage}
                 />
+            </Link>
+            <Link to={routePaths.NETWORK}>
+                <HeaderButton Icon={BidirectionalIcon} text={'Network Management'} isActive={isNetworkPage} />
             </Link>
         </HeaderBarItems>
     );

@@ -41,7 +41,7 @@ python -m pip install -r test_requirements # Install unit test dependencies
 
 #### Run Flask Service
 ```
-python -m falsk run --debug
+python -m falsk run --port=59999 --debug
 ```
 
 ## Frontend
@@ -61,6 +61,6 @@ npm install
 ### Development
 To start development environment run. (To pass API url to backend)
 ```
-npm start -- --env=api='http://localhost:5000/api'
+npm start -- --env=api='http://localhost:59999/api'
 ```
 Open `http://localhost:8080` on browser.

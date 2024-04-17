@@ -3,6 +3,7 @@ import React from 'react';
 
 import AuthorizationPage from 'pages/authorization/authPage';
 import LicensesPage from 'pages/licenses/licensesPage';
+import NetworkPage from 'pages/network/networkPage';
 import Protected from 'pages/protected/protected';
 
 import routePaths from './routePaths';
@@ -26,6 +27,11 @@ export const Routes: React.FC = React.memo(() => {
             <Route exact={true} path={routePaths.LICENSES}>
                 <Protected>
                     <LicensesPage />
+                </Protected>
+            </Route>
+            <Route exact={true} path={routePaths.NETWORK}>
+                <Protected>
+                    <NetworkPage />
                 </Protected>
             </Route>
             <Route exact={true} path={routePaths.AUTHORIZATION} component={AuthorizationPage} />

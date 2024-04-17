@@ -4,6 +4,7 @@ import {connectRouter} from 'connected-react-router';
 
 import environmentReducer from 'domain/environment/environmentSlice';
 import licenseManagementReducer from 'domain/licenseManagement/licenseManagementSlice';
+import networkManagementReducer from 'domain/networkManagement/networkManagementSlice';
 import {stateReset} from 'store/globalActions';
 
 function resetWrapper<S, A extends AnyAction>(reducer: Reducer<S, A>): Reducer<S, A> {
@@ -16,5 +17,6 @@ export default (history: History) =>
     combineReducers({
         environment: environmentReducer,
         licenseManagement: resetWrapper(licenseManagementReducer),
+        networkManagement: resetWrapper(networkManagementReducer),
         router: connectRouter(history),
     });
