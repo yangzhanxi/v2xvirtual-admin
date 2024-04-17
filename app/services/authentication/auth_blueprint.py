@@ -49,9 +49,6 @@ def login():
                     HTTPStatus.INTERNAL_SERVER_ERROR)
 
     if user and verify_password(password, user.password):
-        if '_user_id' in session and session['_user_id'] == user.get_id():
-            return auth_response.ALREADY_LOGGED_IN
-
         login_user(user)
         access_token = create_access_token(identity=username)
 
