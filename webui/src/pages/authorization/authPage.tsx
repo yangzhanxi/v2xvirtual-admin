@@ -65,7 +65,7 @@ const AuthorizationPage: React.FC = () => {
                             <div className={styles.title}>{'Sign in to V2X Virtual Admin'}</div>
                             {errorMessage}
                             <div className={styles.inputContainer}>
-                                <InputController placeholder={'usename'} name={USERNAME} isInputRounded={true} />
+                                <InputController placeholder={'username'} name={USERNAME} isInputRounded={true} />
                             </div>
                             <div className={styles.inputContainer}>
                                 <PasswordInputController
