@@ -36,9 +36,10 @@ def create_app() -> Flask:
     app.config["SECURITY_PASSWORD_SALT"] = os.environ.get(
         "SECURITY_PASSWORD_SALT", SECURITY_PASSWORD_SALT)
 
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=2)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
     app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe()
-    app.config["PERMANENT_SESSION_LIFETIME"] = 86400
+    app.config[" "] = timedelta(hours=1)
+    app.config['SESSION_COOKIE_SAMESITE'] = None
 
     user_datastore = init_datastore()
     setattr(app, "security", Security(app, user_datastore))
